@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import Header from "../../common/components/Header/Header";
+import Footer from "../../common/components/Footer/Footer";
+import { WrapperApplication } from "../../common/styled/main.styled";
 
 export type PageWrapperProps = {
   children: React.ReactNode;
@@ -9,8 +11,11 @@ export type PageWrapperProps = {
 export default function PageWrapper({ children }: PageWrapperProps) {
   return (
     <Router>
-      <Header></Header>
-      {children}
+      <WrapperApplication>
+        <Header />
+        {children}
+        <Footer />
+      </WrapperApplication>
     </Router>
   );
 }

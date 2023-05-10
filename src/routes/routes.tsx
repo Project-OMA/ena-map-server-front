@@ -1,9 +1,11 @@
-import React from 'react';
-import {  Routes, Route } from 'react-router-dom';
-import Home from '../pages/Home/Home';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Home from "../pages/Home/Home";
 
 export const ROUTES_PATH = {
-  home: { route: '/', use: '/' },
+  home: { route: "/", use: "/" },
+  group: { route: "/group", use: "/group" },
+  map: { route: "/map", use: "/map" },
 };
 
 export const ROUTES = [

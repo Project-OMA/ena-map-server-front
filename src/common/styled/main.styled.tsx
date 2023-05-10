@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import styled from "@emotion/styled";
 
 export const TitleBox = styled.div`
   padding: 10px 20px;
@@ -25,13 +25,15 @@ export const SeparatorLine = styled.div`
 
 export const HeaderBox = styled.div`
   height: 52px;
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   box-shadow: 1px 3px 2px 1px rgba(0, 0, 0, 0.1);
-  background: #fff;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0 20px;
+  position: relative;
 `;
 
 export const HeaderLeftContent = styled.div``;
@@ -40,11 +42,22 @@ export const HeaderCenterContent = styled.div``;
 
 export const HeaderRightContent = styled.div``;
 
-export const HeaderName = styled.div``;
+export const HeaderName = styled.p`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+`;
 
 export const ButtonBox = styled.div`
   margin: 10px 0px;
   display: flex;
   width: 100%;
   justify-content: space-between;
+`;
+
+export const WrapperApplication = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 `;
