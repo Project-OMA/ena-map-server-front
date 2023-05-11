@@ -30,8 +30,7 @@ export const HeaderBox = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 1px 3px 2px 1px rgba(0, 0, 0, 0.1);
-  background: rgba(0, 0, 0, 0.05);
+  box-shadow: 1px 3px 2px 1px rgba(0, 0, 0, 0.05);
   padding: 0 20px;
   position: relative;
 `;
@@ -60,4 +59,38 @@ export const WrapperApplication = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
+`;
+
+export const ButtonRadius = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  width: 330px;
+  background: #333333;
+
+  border-radius: 8px;
+  color: #fff;
+  transition: all 0.5s;
+
+  :disabled {
+    background-color: #e5e5e5;
+    color: #999999;
+    cursor: auto !important;
+    :hover {
+      filter: brightness(1) !important;
+    }
+  }
+
+  cursor: pointer;
+  :hover {
+    filter: brightness(0.8);
+  }
+`;
+
+export const ErrorText = styled.p`
+  padding-top: 5px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #d32f2f;
 `;

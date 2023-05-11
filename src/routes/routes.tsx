@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "../pages/Home/Home";
+import MapPage from "../pages/MapPage";
 
 export const ROUTES_PATH = {
   home: { route: "/", use: "/" },
@@ -13,6 +14,11 @@ export const ROUTES = [
     path: ROUTES_PATH.home.route,
     isPublic: true,
     element: <Home />,
+  },
+  {
+    path: ROUTES_PATH.map.route,
+    isPublic: true,
+    element: <MapPage />,
   },
 ];
 

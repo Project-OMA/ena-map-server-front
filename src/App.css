@@ -36,3 +36,38 @@
     transform: rotate(360deg);
   }
 }
+
+.ReactModal__Overlay .react-modal-action {
+  transform: translateY(250%);
+  transition: all 500ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open .react-modal-action {
+  transform: translateY(0px);
+}
+
+.ReactModal__Overlay--before-close .react-modal-action {
+  transform: translateY(250%);
+}
+
+.react-modal-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.react-modal-action {
+  width: 400px;
+  height: 350px;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+}
