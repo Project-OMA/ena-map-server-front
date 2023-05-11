@@ -33,6 +33,9 @@ export const HeaderBox = styled.div`
   box-shadow: 1px 3px 2px 1px rgba(0, 0, 0, 0.05);
   padding: 0 20px;
   position: relative;
+  button {
+    cursor: pointer;
+  }
 `;
 
 export const HeaderLeftContent = styled.div``;

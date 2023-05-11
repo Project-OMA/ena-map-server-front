@@ -15,7 +15,17 @@ import { useMemo, useState } from "react";
 import { enaConvertServices } from "../../../service/enaConvertService";
 import { serverMapService } from "../../../service/axiosServer";
 
-export default function RegisterMapModal() {
+type IRegisterMapModal = {
+  open: boolean;
+  closeModal: (value: boolean) => void;
+  loadMaps: () => void;
+};
+
+export default function RegisterMapModal({
+  open,
+  closeModal,
+  loadMaps,
+}: IRegisterMapModal) {
   const [name, setName] = useState("");
   const [file, setFile] = useState<File | undefined>(undefined);
   const [loading, setLoading] = useState(false);
@@ -44,25 +54,32 @@ export default function RegisterMapModal() {
         url: "https://teste.com",
       });
 
-      console.log("response", response);
+      loadMaps();
+      handleCloseModal();
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleCloseModal = () => {
+    closeModal(false);
   };
 
   return (
     <Modal
-      isOpen={true}
+      isOpen={open}
       closeTimeoutMS={500}
       ariaHideApp={false}
       overlayClassName="react-modal-overlay"
       className="react-modal-action"
-      // onRequestClose={handleCloseModal}
+      onRequestClose={handleCloseModal}
     >
       <WrapperModalRegister>
         <HeaderModal>
           <ModalTitle>Cadastro de Mapa</ModalTitle>
-          <button>
+          <button onClick={() => handleCloseModal()}>
             <Close size={25} color="#000" />
           </button>
         </HeaderModal>
@@ -91,6 +108,7 @@ export default function RegisterMapModal() {
             title="Salvar"
             disabled={isRegisterEnable}
             handleClick={() => createMap()}
+            isLoading={loading}
           />
         </FooterModalWrapper>
       </WrapperModalRegister>

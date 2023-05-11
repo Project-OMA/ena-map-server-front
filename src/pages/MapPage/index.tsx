@@ -1,14 +1,53 @@
+import { useState, useCallback, useEffect } from "react";
 import CardItem from "../../common/components/CardItem";
 import RegisterMapModal from "../../common/modal/RegisterMapModal";
-import { WrapperMaps } from "./style";
+import { HeaderMapsPage, WrapperMaps } from "./style";
+import { serverMapService } from "../../service/axiosServer";
+import { LoadingComponent } from "../../common/styled/LoadingComponent";
 
 export default function MapPage() {
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [maps, setMaps] = useState([]);
+
+  const closeModal = () => {
+    setOpenModal(false);
+  };
+
+  const loadMaps = useCallback(async () => {
+    try {
+      const response = await serverMapService.getMaps();
+      setMaps(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadMaps();
+  }, []);
+
+  const renderMapCards = useCallback(() => {
+    if (maps.length > 0) {
+      return maps.map((map: any) => {
+        return <CardItem key={map.id_map} title={map.name} />;
+      });
+    }
+    return <LoadingComponent size={30} />;
+  }, [maps]);
+
   return (
-    <WrapperMaps>
-      <RegisterMapModal />
-      <CardItem title="teste 1" />
-      <CardItem title="teste 3" />
-      <CardItem title="teste 2" />
-    </WrapperMaps>
+    <>
+      <HeaderMapsPage>
+        <button onClick={() => setOpenModal(true)}>Cadastrar Mapas</button>
+      </HeaderMapsPage>
+      <WrapperMaps>
+        <RegisterMapModal
+          open={openModal}
+          closeModal={closeModal}
+          loadMaps={loadMaps}
+        />
+        {renderMapCards()}
+      </WrapperMaps>
+    </>
   );
 }

@@ -14,6 +14,7 @@ export const CardTitle = styled.h1`
   font-size: 1.2rem;
   color: #000;
   font-weight: 400;
+  text-transform: capitalize;
 `;
 
 export const CardHeader = styled.div`

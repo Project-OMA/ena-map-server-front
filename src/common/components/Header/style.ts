@@ -16,4 +16,5 @@ export const WrapperButton = styled.div`
   flex-direction: row;
   gap: 0.5rem;
   height: 100%;
+  margin-left: auto;
 `;
