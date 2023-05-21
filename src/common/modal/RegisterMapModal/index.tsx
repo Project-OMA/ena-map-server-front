@@ -45,14 +45,16 @@ export default function RegisterMapModal({
   const createMap = async () => {
     try {
       setLoading(true);
-      const mapConverted = await enaConvertServices.convertMap(file as File);
-      const response = await serverMapService.createMap({
-        name,
-        tag: mapConverted,
-        id_owner: 3,
-        thumb_url: "https://teste.com",
-        url: "https://teste.com",
-      });
+      // const mapConverted = await enaConvertServices.convertMap(file as File);
+
+      const data = new FormData();
+      data.append("file", file as File);
+      data.append("minify", "true");
+      data.append("id_owner", "3");
+      data.append("url", "https://teste.com");
+      data.append("name", name);
+
+      const response = await serverMapService.createMap(data);
 
       loadMaps();
       handleCloseModal();

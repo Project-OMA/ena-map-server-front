@@ -4,6 +4,7 @@ import RegisterMapModal from "../../common/modal/RegisterMapModal";
 import { HeaderMapsPage, WrapperMaps } from "./style";
 import { serverMapService } from "../../service/axiosServer";
 import { LoadingComponent } from "../../common/styled/LoadingComponent";
+import { getBackgroundLink } from "../../consts";
 
 export default function MapPage() {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -29,7 +30,9 @@ export default function MapPage() {
   const renderMapCards = useCallback(() => {
     if (maps.length > 0) {
       return maps.map((map: any) => {
-        return <CardItem key={map.id_map} title={map.name} />;
+        return (
+          <CardItem key={map.id_map} title={map.name} imgBg={map?.thumb_url} />
+        );
       });
     }
     return <LoadingComponent size={30} />;

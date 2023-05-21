@@ -15,9 +15,7 @@ export class ServerMapService {
 
   async createMap(data: any) {
     try {
-      const response = await this.serverMapService.post("/maps", {
-        ...data,
-      });
+      const response = await this.serverMapService.post("/maps", data);
       return response?.data?.content;
     } catch (error) {
       console.error("Error ao cadastrar o mapa.", error);
