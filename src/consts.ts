@@ -1,4 +1,4 @@
-let apiUrl = "http://localhost:8888/v1";
+let apiUrl = "http://localhost:8000/v1";
 
 export const API_URL = apiUrl;
 

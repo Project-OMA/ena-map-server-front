@@ -10,16 +10,16 @@ export default function Home() {
   return (
     <WrapperPage>
       <ButtonWrapper>
-        <ButtonSector>
-          <img src={iconAluno} />
-          <p>Cadastrar Aluno</p>
+        <ButtonSector onClick={() => routes.users()}>
+          <img src={iconAluno} alt='Botão para a página de Usuários'/>
+          <p>Usuários</p>
         </ButtonSector>
         <ButtonSector>
-          <img src={iconGroup} />
+          <img src={iconGroup} alt='Botão para a página de Grupos'/>
           <p>Grupos</p>
         </ButtonSector>
         <ButtonSector onClick={() => routes.map()}>
-          <img src={iconMap} />
+          <img src={iconMap}  alt='Botão para a página de Mapas'/>
           <p>Mapas</p>
         </ButtonSector>
       </ButtonWrapper>
