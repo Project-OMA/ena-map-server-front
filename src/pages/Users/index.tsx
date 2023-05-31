@@ -91,8 +91,7 @@ export default function Students() {
       />
 
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="caption table">
-          <caption>A basic table example with a caption</caption>
+        <Table>
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
