@@ -14,7 +14,7 @@ import Paper from '@mui/material/Paper';
 import convertUserType from '../../utils/convertUserType';
 import Button from '@mui/material/Button';
 
-export default function Students() {
+export default function Users() {
   const [openCsvModal, setOpenCsvModal] = useState<boolean>(false);
   const [openFormModal, setOpenFormModal] = useState<boolean>(false);
   const [userUpdateId, setUserUpdateId] = useState<number | null>(null);

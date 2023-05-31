@@ -22,7 +22,7 @@ export function useRoutes(): UseRoutesReturn {
         navigate(ROUTES_PATH.map.use);
       },
       users: () => {
-        navigate(ROUTES_PATH.students.use);
+        navigate(ROUTES_PATH.users.use);
       },
       goBack: () => {
         navigate(-1);

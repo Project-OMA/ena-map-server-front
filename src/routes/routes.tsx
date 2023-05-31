@@ -8,7 +8,7 @@ export const ROUTES_PATH = {
   home: { route: "/", use: "/" },
   group: { route: "/group", use: "/group" },
   map: { route: "/map", use: "/map" },
-  students: { route: "/students", use: "/students" },
+  users: { route: "/users", use: "/users" },
 };
 
 export const ROUTES = [
@@ -23,7 +23,7 @@ export const ROUTES = [
     element: <MapPage />,
   },
   {
-    path: ROUTES_PATH.students.route,
+    path: ROUTES_PATH.users.route,
     isPublic: true,
     element: <Users />,
   }
