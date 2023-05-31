@@ -28,6 +28,9 @@ export function useRoutes(): UseRoutesReturn {
       groups: () => {
         navigate(ROUTES_PATH.groups.use);
       },
+      groups: () => {
+        navigate(ROUTES_PATH.groups.use);
+      },
       goBack: () => {
         navigate(-1);
       },
