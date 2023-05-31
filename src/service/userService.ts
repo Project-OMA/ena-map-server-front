@@ -12,7 +12,7 @@ export class UserService {
     return await this.userService.get(`/users`);
     } catch(error){
       console.error("Erro! Não foi possível listar os usuários. " + error);
-      throw new Error("Erro! Não foi possível cadastrar o usuário. " + error);
+      throw error;
     }
   }
 
