@@ -6,6 +6,7 @@ export const WrapperMaps = styled.div`
   gap: 100px;
   width: 100%;
   padding: 100px;
+  flex-wrap: wrap;
 `;
 
 export const HeaderMapsPage = styled.div`

@@ -7,6 +7,7 @@ export type ButtonType = {
   disabled: boolean;
   errorText?: string;
   isLoading?: boolean;
+  style?: {};
 };
 
 export default function Button({
@@ -15,13 +16,14 @@ export default function Button({
   disabled,
   errorText,
   isLoading,
+  style,
 }: ButtonType) {
   return (
     <>
       <ButtonRadius
         onClick={handleClick}
         disabled={disabled}
-        style={{ width: "40%" }}
+        style={style ? style : { width: "60%" }}
       >
         {isLoading ? <LoadingComponent color="#fff" size={20} /> : title}
       </ButtonRadius>

@@ -7,6 +7,18 @@ export class ServerMapService {
     this.serverMapService = server;
   }
 
+  // User Entity
+
+  async authUser(data: any) {
+    try {
+      const response = await this.serverMapService.post("/users/auth", data);
+      return response?.data;
+    } catch (error) {
+      console.error("Error ao autenticar o usuario.", error);
+      throw error;
+    }
+  }
+
   // Maps Entity
 
   async getMaps() {
