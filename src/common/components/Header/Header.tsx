@@ -1,10 +1,7 @@
 import { useRoutes } from "../../../hooks/useRoutes";
 import {
   HeaderBox,
-  HeaderLeftContent,
-  HeaderCenterContent,
-  HeaderName,
-  HeaderRightContent,
+  HeaderName
 } from "../../styled/main.styled";
 import { ButtonHeader, WrapperButton } from "./style";
 import { ArrowLeft } from "@styled-icons/fluentui-system-regular";
@@ -21,7 +18,7 @@ export default function Header() {
       )}
       <HeaderName><ButtonHeader onClick={() => routes.home()}>Home</ButtonHeader></HeaderName>
       <WrapperButton>
-        <ButtonHeader onClick={() => routes.map()}>Grupos</ButtonHeader>
+        <ButtonHeader onClick={() => routes.groups()}>Grupos</ButtonHeader>
         <ButtonHeader onClick={() => routes.map()}>Mapas</ButtonHeader>
         <ButtonHeader onClick={() => routes.users()}>Usuários</ButtonHeader>
       </WrapperButton>
