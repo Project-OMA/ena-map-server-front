@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "../pages/Home/Home";
 import MapPage from "../pages/MapPage";
-import Students from "../pages/Students";
+import Users from "../pages/Users";
 
 export const ROUTES_PATH = {
   home: { route: "/", use: "/" },
@@ -25,7 +25,7 @@ export const ROUTES = [
   {
     path: ROUTES_PATH.students.route,
     isPublic: true,
-    element: <Students />,
+    element: <Users />,
   }
 ];
 
