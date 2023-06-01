@@ -14,7 +14,7 @@ export default function Home() {
           <img src={iconAluno} alt='Botão para a página de Usuários'/>
           <p>Usuários</p>
         </ButtonSector>
-        <ButtonSector>
+        <ButtonSector onClick={() => routes.groups()}>
           <img src={iconGroup} alt='Botão para a página de Grupos'/>
           <p>Grupos</p>
         </ButtonSector>

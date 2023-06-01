@@ -7,6 +7,7 @@ export type UseRoutesReturn = {
     home: () => void;
     map: () => void;
     users: () => void;
+    groups: () => void;
     goBack: () => void;
   };
 };
@@ -23,6 +24,9 @@ export function useRoutes(): UseRoutesReturn {
       },
       users: () => {
         navigate(ROUTES_PATH.users.use);
+      },
+      groups: () => {
+        navigate(ROUTES_PATH.groups.use);
       },
       goBack: () => {
         navigate(-1);
