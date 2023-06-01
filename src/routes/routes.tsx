@@ -2,11 +2,13 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "../pages/Home/Home";
 import MapPage from "../pages/MapPage";
+import Users from "../pages/Users";
 
 export const ROUTES_PATH = {
   home: { route: "/", use: "/" },
   group: { route: "/group", use: "/group" },
   map: { route: "/map", use: "/map" },
+  users: { route: "/users", use: "/users" },
 };
 
 export const ROUTES = [
@@ -20,6 +22,11 @@ export const ROUTES = [
     isPublic: true,
     element: <MapPage />,
   },
+  {
+    path: ROUTES_PATH.users.route,
+    isPublic: true,
+    element: <Users />,
+  }
 ];
 
 export default function ApplicationRoutes() {

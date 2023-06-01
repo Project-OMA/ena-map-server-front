@@ -19,11 +19,11 @@ export default function Header() {
           <ArrowLeft size={20} color="#000" />
         </button>
       )}
-      <HeaderName>Home</HeaderName>
+      <HeaderName><ButtonHeader onClick={() => routes.home()}>Home</ButtonHeader></HeaderName>
       <WrapperButton>
         <ButtonHeader onClick={() => routes.map()}>Grupos</ButtonHeader>
         <ButtonHeader onClick={() => routes.map()}>Mapas</ButtonHeader>
-        <ButtonHeader onClick={() => routes.map()}>Alunos</ButtonHeader>
+        <ButtonHeader onClick={() => routes.users()}>Usuários</ButtonHeader>
       </WrapperButton>
     </HeaderBox>
   );

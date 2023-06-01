@@ -1,10 +1,8 @@
 import Modal from "react-modal";
-import InputText from "../../components/InputText";
 import {
   BodyModalWrapper,
   FooterModalWrapper,
   HeaderModal,
-  LabelInput,
   ModalTitle,
   WrapperInput,
   WrapperModalRegister,
@@ -12,23 +10,20 @@ import {
 import Button from "../../components/Button";
 import { Close } from "@styled-icons/evil";
 import { useMemo, useState } from "react";
-import { enaConvertServices } from "../../../service/enaConvertService";
-import { serverMapService } from "../../../service/axiosServer";
+import { userService } from "../../../service/axiosServer";
 
 type IRegisterMapModal = {
   open: boolean;
   closeModal: (value: boolean) => void;
-  loadMaps: () => void;
 };
 
-export default function RegisterMapModal({
+export default function UserFileModal({
   open,
-  closeModal,
-  loadMaps,
+  closeModal
 }: IRegisterMapModal) {
-  const [name, setName] = useState("");
   const [file, setFile] = useState<File | undefined>(undefined);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const changeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -36,36 +31,24 @@ export default function RegisterMapModal({
   };
 
   const isRegisterEnable = useMemo(() => {
-    if (name.length > 0 && file) {
-      return false;
-    }
-    return true;
-  }, [name, file]);
+    return !file ? true : false;
+  }, [file]);
 
-  const createMap = async () => {
+  const createUsers = async () => {
     try {
       setLoading(true);
-      // const mapConverted = await enaConvertServices.convertMap(file as File);
-
-      const data = new FormData();
-      data.append("file", file as File);
-      data.append("minify", "true");
-      data.append("id_owner", "3");
-      data.append("url", "https://teste.com");
-      data.append("name", name);
-
-      const response = await serverMapService.createMap(data);
-
-      loadMaps();
+      await userService.createByFile(file);
+      setErrorMessage("");
       handleCloseModal();
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      setErrorMessage(error.response.data.message);
     } finally {
       setLoading(false);
     }
   };
 
   const handleCloseModal = () => {
+    setErrorMessage("");
     closeModal(false);
   };
 
@@ -80,36 +63,28 @@ export default function RegisterMapModal({
     >
       <WrapperModalRegister>
         <HeaderModal>
-          <ModalTitle>Cadastro de Mapa</ModalTitle>
+          <ModalTitle>Cadastrar por CSV</ModalTitle>
           <button onClick={() => handleCloseModal()}>
             <Close size={25} color="#000" />
           </button>
         </HeaderModal>
         <BodyModalWrapper>
           <WrapperInput>
-            <LabelInput>Nome:</LabelInput>
-            <InputText
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Digite o nome do mapa"
-              style={{ width: "100%" }}
-            />
-          </WrapperInput>
-          <WrapperInput>
             <input
               type="file"
               id="avatar"
               name="avatar"
-              accept="text/xml"
+              accept="text/csv"
               onChange={changeFile}
             />
           </WrapperInput>
         </BodyModalWrapper>
+        <div style={{color: "red", padding: "0px 80px"}}>{errorMessage}</div>
         <FooterModalWrapper>
           <Button
             title="Salvar"
             disabled={isRegisterEnable}
-            handleClick={() => createMap()}
+            handleClick={() => createUsers()}
             isLoading={loading}
           />
         </FooterModalWrapper>
