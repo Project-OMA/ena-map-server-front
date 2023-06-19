@@ -5,10 +5,14 @@ import { HeaderMapsPage, WrapperMaps } from "./style";
 import { serverMapService } from "../../service/axiosServer";
 import { LoadingComponent } from "../../common/styled/LoadingComponent";
 import { getBackgroundLink } from "../../consts";
+import { useUser } from "../../hooks/useUser";
 
 export default function MapPage() {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [maps, setMaps] = useState([]);
+  const { user } = useUser();
+
+  console.log("user", user);
 
   const closeModal = () => {
     setOpenModal(false);
