@@ -80,8 +80,8 @@ export const MapWrapper = styled.div`
 `;
 
 export const MapCard = styled.div`
-  width: 100%;
-  height: 3rem;
+  width: 40%;
+  height: 9rem;
   display: flex;
   justify-content: space-between;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.03);
