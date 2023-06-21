@@ -22,7 +22,21 @@ export class ServerMapService {
   // Maps Entity
 
   async getMaps() {
-    return await this.serverMapService.get(`/maps`);
+    try {
+      return await this.serverMapService.get(`/maps`);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getMapsByName(query: string) {
+    try {
+      return await this.serverMapService.get(`/maps/search`, {
+        params: { query },
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   async createMap(data: any) {

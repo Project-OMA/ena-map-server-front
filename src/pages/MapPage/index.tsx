@@ -12,8 +12,6 @@ export default function MapPage() {
   const [maps, setMaps] = useState([]);
   const { user } = useUser();
 
-  console.log("user", user);
-
   const closeModal = () => {
     setOpenModal(false);
   };

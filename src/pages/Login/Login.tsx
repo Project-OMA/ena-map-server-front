@@ -20,10 +20,8 @@ export default function Login() {
 
   const disableButton = useMemo(() => {
     const emailRegex = /\S+@\S+\.\S+/;
-    console.log("testeee 000");
 
     if (emailRegex.test(email) && password !== "") {
-      console.log("testeee");
       return false;
     }
     return true;

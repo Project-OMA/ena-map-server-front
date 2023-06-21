@@ -14,8 +14,6 @@ type ICardItem = {
 };
 
 export default function CardItem({ title, imgBg }: ICardItem) {
-  console.log("imgBg", imgBg);
-
   return (
     <WrapperCard>
       <CardHeader>

@@ -8,18 +8,18 @@ export class GroupService {
   }
 
   async findAll() {
-    try{
-    return await this.groupService.get(`/groups`);
-    } catch(error){
+    try {
+      return await this.groupService.get(`/groups`);
+    } catch (error) {
       console.error("Erro! Não foi possível listar os grupos. " + error);
       throw error;
     }
   }
 
   async findById(id: number) {
-    try{
-    return await this.groupService.get(`/groups/${id}`);
-    } catch(error){
+    try {
+      return await this.groupService.get(`/groups/${id}`);
+    } catch (error) {
       console.error("Erro! Não foi possível encontrar o grupo. " + error);
       throw error;
     }
@@ -37,10 +37,9 @@ export class GroupService {
     }
   }
 
-
-  async update(data: any) {
+  async update(id: number, data: any) {
     try {
-      const response = await this.groupService.put(`/groups/${data.id}`, {
+      const response = await this.groupService.put(`/groups/${id}`, {
         ...data,
       });
       return response?.data?.content;
@@ -51,9 +50,9 @@ export class GroupService {
   }
 
   async deleteById(id: number) {
-    try{
-    return await this.groupService.delete(`/groups/${id}`);
-    } catch(error){
+    try {
+      return await this.groupService.delete(`/groups/${id}`);
+    } catch (error) {
       console.error("Erro! Não foi possível deletar o grupo. " + error);
       throw error;
     }

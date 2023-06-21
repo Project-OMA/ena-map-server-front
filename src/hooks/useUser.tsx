@@ -3,7 +3,7 @@ import { authGuard } from "../guard/auth/components/AuthGuard";
 import jwt from "jwt-decode";
 import { useRoutes } from "./useRoutes";
 import { UserContext, UserContextData } from "../context/userContext";
-import { serverMapService } from "../service/axiosServer";
+import { reloadServices, serverMapService } from "../service/axiosServer";
 
 export function useUser() {
   const { user, setUser, loading, setLoading } =
@@ -27,14 +27,13 @@ export function useUser() {
   const handleLogin = useCallback(
     async (params: { email: string; password: string }) => {
       try {
-        console.log("testeeeeee");
         setLoading(true);
         const response = await serverMapService.authUser(params);
-        console.log("response", response);
 
         if (response.access_token) {
           const token = response.access_token;
           authGuard.setTokenToLocalStorage(response);
+          reloadServices();
           const userDecoded: any = jwt(token);
           if (userDecoded) {
             setUser({
@@ -44,6 +43,7 @@ export function useUser() {
               email: userDecoded.email,
             });
           }
+
           checkRedirectPage();
         }
       } catch (error) {
