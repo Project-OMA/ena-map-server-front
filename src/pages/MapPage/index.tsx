@@ -6,6 +6,7 @@ import { serverMapService } from "../../service/axiosServer";
 import { LoadingComponent } from "../../common/styled/LoadingComponent";
 import { getBackgroundLink } from "../../consts";
 import { useUser } from "../../hooks/useUser";
+import MapItem from "../../common/components/CardItem";
 
 export default function MapPage() {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -33,7 +34,12 @@ export default function MapPage() {
     if (maps.length > 0) {
       return maps.map((map: any) => {
         return (
-          <CardItem key={map.id_map} title={map.name} imgBg={map?.thumb_url} />
+          <MapItem
+            key={map.id_map}
+            id={map.id}
+            title={map.name}
+            imgBg={map?.thumb_url}
+          />
         );
       });
     }

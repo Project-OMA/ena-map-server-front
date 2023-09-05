@@ -23,6 +23,14 @@ export const CardHeader = styled.div`
   border-bottom: 1px solid #dfdfdf;
   display: flex;
   padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const DownloadButton = styled.a`
+  width: 20px;
+  height: 20px;
 `;
 
 export const CardBody = styled.div`

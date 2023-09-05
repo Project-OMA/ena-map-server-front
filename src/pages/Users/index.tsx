@@ -36,7 +36,7 @@ export default function Users() {
   };
 
   const loadUsers = useCallback(async () => {
-    if (!openFormModal) {
+    if (!openFormModal && !openCsvModal) {
       try {
         const response = await userService.findAll();
         setUsers(response.data);
@@ -44,7 +44,7 @@ export default function Users() {
         console.error(error);
       }
     }
-  }, [openFormModal]);
+  }, [openFormModal, openCsvModal]);
 
   useEffect(() => {
     loadUsers();
