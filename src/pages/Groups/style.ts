@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const Header = styled.div`
+export const HeaderGroup = styled.div`
   display: flex;
   justify-content: flex-start;
   padding: 30px 10px;

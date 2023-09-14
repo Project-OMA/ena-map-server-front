@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import UserFormModal from "../../common/modal/UserFormModal";
 import UserFileModal from "../../common/modal/UserFileModal";
-import { Header } from "./style";
+import { HeaderUsers } from "./style";
 import { userService } from "../../service/axiosServer";
 import { LoadingComponent } from "../../common/styled/LoadingComponent";
 import Table from "@mui/material/Table";
@@ -13,6 +13,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import convertUserType from "../../utils/convertUserType";
 import Button from "@mui/material/Button";
+import Header from "../../common/components/Header/Header";
 
 export default function Users() {
   const [openCsvModal, setOpenCsvModal] = useState<boolean>(false);
@@ -80,12 +81,13 @@ export default function Users() {
 
   return (
     <>
-      <Header>
+      <Header title="Usuários" />
+      <HeaderUsers>
         <button onClick={() => setOpenCsvModal(true)}>Cadastrar por CSV</button>
         <button onClick={() => setOpenFormModal(true)}>
           Cadastrar por Formulário
         </button>
-      </Header>
+      </HeaderUsers>
 
       <UserFileModal open={openCsvModal} closeModal={closeCsvModal} />
 

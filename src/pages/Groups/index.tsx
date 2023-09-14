@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import GroupFormModal from "../../common/modal/GroupFormModal";
-import { Header } from "./style";
+import { HeaderGroup } from "./style";
 import { groupService } from "../../service/axiosServer";
 import { LoadingComponent } from "../../common/styled/LoadingComponent";
 import Table from "@mui/material/Table";
@@ -11,6 +11,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
+import Header from "../../common/components/Header/Header";
 
 export default function Groups() {
   const [openFormModal, setOpenFormModal] = useState<boolean>(false);
@@ -79,9 +80,10 @@ export default function Groups() {
 
   return (
     <>
-      <Header>
+      <Header title="Grupos" />
+      <HeaderGroup>
         <button onClick={() => setOpenFormModal(true)}>Cadastrar grupo</button>
-      </Header>
+      </HeaderGroup>
 
       <GroupFormModal
         open={openFormModal}

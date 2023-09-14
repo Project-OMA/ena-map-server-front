@@ -33,7 +33,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && pm2 serve build 7767 -spa",
+    "build": "REACT_APP_STAGE=production react-scripts build && pm2 serve build 7767 -spa",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

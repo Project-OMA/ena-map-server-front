@@ -1,6 +1,9 @@
 import axios from "axios";
 
-let apiUrl = "http://localhost:8888/v1";
+let apiUrl =
+  process.env.REACT_APP_STAGE === "production"
+    ? "http://200.9.149.180:8080/v1"
+    : "http://localhost:8888/v1";
 
 export const API_URL = apiUrl;
 

@@ -7,6 +7,7 @@ import { LoadingComponent } from "../../common/styled/LoadingComponent";
 import { getBackgroundLink } from "../../consts";
 import { useUser } from "../../hooks/useUser";
 import MapItem from "../../common/components/CardItem";
+import Header from "../../common/components/Header/Header";
 
 export default function MapPage() {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -48,6 +49,7 @@ export default function MapPage() {
 
   return (
     <>
+      <Header title="Mapas" />
       <HeaderMapsPage>
         <button onClick={() => setOpenModal(true)}>Cadastrar Mapas</button>
       </HeaderMapsPage>
