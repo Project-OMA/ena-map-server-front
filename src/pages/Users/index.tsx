@@ -13,13 +13,42 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import convertUserType from "../../utils/convertUserType";
 import Button from "@mui/material/Button";
+import TablePagination from '@mui/material/TablePagination';
+import TextField from '@mui/material/TextField';
+
+import debounce from 'lodash/debounce';
 
 export default function Users() {
   const [openCsvModal, setOpenCsvModal] = useState<boolean>(false);
   const [openFormModal, setOpenFormModal] = useState<boolean>(false);
   const [userUpdateId, setUserUpdateId] = useState<number | null>(null);
 
+  const [search, setSearch] = useState<string>("");
+  const [page, setPage] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(10);
+  const [count, setCount] = useState<number>(0);
+  
   const [users, setUsers] = useState([]);
+
+  const loadUsers = useCallback(async (search: string, limit: number, page: number) => {
+    if (!openFormModal && !openCsvModal) {
+      try {
+        const pagedUsers = (await userService.findAll(search, limit, page)).data;
+        setUsers(pagedUsers.data);
+        setLimit(pagedUsers.limit);
+        setPage(pagedUsers.page);
+        setCount(pagedUsers.count);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }, [openFormModal, openCsvModal]);
+
+  useEffect(() => {
+    loadUsers(search, limit, page);
+  }, [loadUsers]);
+
+  const debouncedLoadUsers = debounce(loadUsers, 1500);
 
   const closeCsvModal = () => {
     setOpenCsvModal(false);
@@ -35,20 +64,22 @@ export default function Users() {
     setOpenFormModal(true);
   };
 
-  const loadUsers = useCallback(async () => {
-    if (!openFormModal && !openCsvModal) {
-      try {
-        const response = await userService.findAll();
-        setUsers(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }, [openFormModal, openCsvModal]);
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+    loadUsers(search, limit, newPage);
+  };
 
-  useEffect(() => {
-    loadUsers();
-  }, [loadUsers]);
+  const handleChangeLimit = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLimit(+event.target.value);
+    setPage(0);
+    loadUsers(search, +event.target.value, 0);
+  };
+
+  const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newSearch = event.target.value;
+    setSearch(newSearch);
+    debouncedLoadUsers(newSearch, limit, 0);
+  };
 
   const renderUsersCards = useCallback(() => {
     if (users.length > 0) {
@@ -94,23 +125,41 @@ export default function Users() {
         closeModal={closeFormModal}
         userUpdateId={userUpdateId}
       />
-
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Id</TableCell>
-              <TableCell>Nome</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Tipo</TableCell>
-              <TableCell>Criado em</TableCell>
-              <TableCell>Atualizado em</TableCell>
-              <TableCell>Ações</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{renderUsersCards()}</TableBody>
-        </Table>
-      </TableContainer>
+      <Paper sx={{ width: '100%', height: '100%', marginY: 2}}>
+        <TextField
+          id="search"
+          type="search"
+          label="Pesquisar"
+          value={search}
+          onChange={handleChangeSearch}
+          sx={{ width: "100%"}}
+        />
+        <TableContainer>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Id</TableCell>
+                <TableCell>Nome</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Tipo</TableCell>
+                <TableCell>Criado em</TableCell>
+                <TableCell>Atualizado em</TableCell>
+                <TableCell>Ações</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>{renderUsersCards()}</TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25]}
+          component="div"
+          count={count}
+          rowsPerPage={limit}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeLimit}
+        />
+      </Paper>
     </>
   );
 }

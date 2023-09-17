@@ -7,9 +7,15 @@ export class UserService {
     this.userService = server;
   }
 
-  async findAll() {
+  async findAll(
+    search: string | undefined = undefined, 
+    limit: number | undefined = undefined, 
+    page: number | undefined  = undefined
+  ) {
     try{
-    return await this.userService.get(`/users`);
+      return await this.userService.get(`/users`,{ 
+        params: { search, limit, page } 
+      });
     } catch(error){
       console.error("Erro! Não foi possível listar os usuários. " + error);
       throw error;
