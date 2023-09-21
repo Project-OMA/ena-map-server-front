@@ -1,9 +1,7 @@
-import axios from "axios";
-
 let apiUrl =
   process.env.REACT_APP_STAGE === "production"
-    ? "https://200.9.149.180:8080/v1"
-    : "http://localhost:8888/v1";
+    ? "https://achernar.eic.cefet-rj.br/mapserverapi/v1"
+    : "http://200.9.149.180:8080/v1";
 
 export const API_URL = apiUrl;
 
