@@ -18,7 +18,7 @@ import { Close } from "@styled-icons/evil";
 import { useCallback, useEffect, useState } from "react";
 import {
   groupService,
-  serverMapService,
+  serverMapService as mapService,
   userService,
 } from "../../../service/axiosServer";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -88,8 +88,8 @@ export default function RegisterMapModal({
 
   const handleLoadMaps = useCallback(async () => {
     try {
-      const response = await serverMapService.getMaps();
-      setMaps(response.data);
+      const response = await mapService.findAll();
+      setMaps(response);
     } catch (error) {
       console.error(error);
     }

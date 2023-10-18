@@ -15,6 +15,8 @@ import convertUserType from "../../utils/convertUserType";
 import Button from "@mui/material/Button";
 import TablePagination from '@mui/material/TablePagination';
 import TextField from '@mui/material/TextField';
+import SearchIcon from '@mui/icons-material/Search';
+import InputAdornment from '@mui/material/InputAdornment';
 
 import debounce from 'lodash/debounce';
 
@@ -33,10 +35,10 @@ export default function Users() {
   const loadUsers = useCallback(async (search: string, limit: number, page: number) => {
     if (!openFormModal && !openCsvModal) {
       try {
-        const pagedUsers = (await userService.findAll(search, limit, page)).data;
+        const pagedUsers = (await userService.findAllPaged(search, limit, page + 1));
         setUsers(pagedUsers.data);
         setLimit(pagedUsers.limit);
-        setPage(pagedUsers.page);
+        setPage(pagedUsers.page - 1);
         setCount(pagedUsers.count);
       } catch (error) {
         console.error(error);
@@ -125,7 +127,7 @@ export default function Users() {
         closeModal={closeFormModal}
         userUpdateId={userUpdateId}
       />
-      <Paper sx={{ width: '100%', height: '100%', marginY: 2}}>
+      <Paper sx={{ width: '100%', height: '100%', marginY: 5}}>
         <TextField
           id="search"
           type="search"
@@ -133,8 +135,11 @@ export default function Users() {
           value={search}
           onChange={handleChangeSearch}
           sx={{ width: "100%"}}
+          InputProps={{
+            startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>,
+          }}
         />
-        <TableContainer>
+        <TableContainer sx={{ marginTop: 2}}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -151,7 +156,7 @@ export default function Users() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10, 25]}
+          rowsPerPageOptions={[10, 15]}
           component="div"
           count={count}
           rowsPerPage={limit}
