@@ -9,7 +9,22 @@ export class GroupService {
 
   async findAll() {
     try {
-      return await this.groupService.get(`/groups`);
+      return (await this.groupService.get(`/groups/listAll`)).data;
+    } catch (error) {
+      console.error("Erro! Não foi possível listar os grupos. " + error);
+      throw error;
+    }
+  }
+
+  async findAllPaged(
+    search: string | undefined = undefined, 
+    limit: number | undefined = undefined, 
+    page: number | undefined  = undefined
+  ) {
+    try {
+      return (await this.groupService.get(`/groups`,{ 
+        params: { search, limit, page } 
+      })).data;
     } catch (error) {
       console.error("Erro! Não foi possível listar os grupos. " + error);
       throw error;

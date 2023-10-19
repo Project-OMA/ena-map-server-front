@@ -9,7 +9,22 @@ export class UserService {
 
   async findAll() {
     try{
-    return await this.userService.get(`/users`);
+      return (await this.userService.get(`/users/listAll`)).data;
+    } catch(error){
+      console.error("Erro! Não foi possível listar os usuários. " + error);
+      throw error;
+    }
+  }
+
+  async findAllPaged(
+    search: string | undefined = undefined, 
+    limit: number | undefined = undefined, 
+    page: number | undefined  = undefined
+  ) {
+    try{
+      return (await this.userService.get(`/users`,{ 
+        params: { search, limit, page } 
+      })).data;
     } catch(error){
       console.error("Erro! Não foi possível listar os usuários. " + error);
       throw error;

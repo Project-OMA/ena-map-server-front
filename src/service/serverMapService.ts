@@ -20,10 +20,23 @@ export class ServerMapService {
   }
 
   // Maps Entity
-
-  async getMaps() {
+  async findAll() {
     try {
-      return await this.serverMapService.get(`/maps`);
+      return (await this.serverMapService.get(`/maps/listAll`)).data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async findAllPaged(
+    search: string | undefined = undefined, 
+    limit: number | undefined = undefined, 
+    page: number | undefined  = undefined
+  ) {
+    try {
+      return (await this.serverMapService.get(`/maps`,{ 
+        params: { search, limit, page } 
+      })).data;
     } catch (error) {
       throw error;
     }
