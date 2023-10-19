@@ -2,6 +2,7 @@
   "name": "frontend-react-typescriopt",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://achernar.eic.cefet-rj.br/mapserver/",
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
@@ -19,6 +20,7 @@
     "axios": "^0.27.2",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
+    "pm2": "^5.3.0",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
@@ -33,7 +35,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "REACT_APP_STAGE=production react-scripts build && pm2 serve build 7767 -spa",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

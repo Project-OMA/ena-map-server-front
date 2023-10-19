@@ -13,8 +13,8 @@ import Button from "../../components/Button";
 import { Close } from "@styled-icons/evil";
 import { useCallback, useEffect, useState } from "react";
 import { userService } from "../../../service/axiosServer";
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 type IRegisterMapModal = {
   open: boolean;
@@ -25,7 +25,7 @@ type IRegisterMapModal = {
 export default function RegisterMapModal({
   open,
   closeModal,
-  userUpdateId
+  userUpdateId,
 }: IRegisterMapModal) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -35,15 +35,15 @@ export default function RegisterMapModal({
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    if(Number.isInteger(userUpdateId)){
+    if (Number.isInteger(userUpdateId)) {
       loadUserData();
     }
   }, [userUpdateId]);
 
-  const loadUserData =  useCallback(async () => {
-    if(userUpdateId === null) return;
+  const loadUserData = useCallback(async () => {
+    if (userUpdateId === null) return;
     let user = (await userService.findById(userUpdateId)).data;
-    
+
     setName(user.name);
     setEmail(user.email);
     setType(user.type);
@@ -53,23 +53,23 @@ export default function RegisterMapModal({
     try {
       setLoading(true);
 
-      if(userUpdateId){
+      if (userUpdateId) {
         await userService.update({
           id: userUpdateId,
           name,
           email,
           password: password || undefined,
-          type
+          type,
         });
       } else {
         await userService.create({
           name,
           email,
           password,
-          type
+          type,
         });
       }
-      
+
       setErrorMessage("");
       handleCloseModal();
     } catch (error: any) {
@@ -103,7 +103,9 @@ export default function RegisterMapModal({
     >
       <WrapperModalRegister>
         <HeaderModal>
-          <ModalTitle>{userUpdateId ? "Edição" : "Cadastro"} de Usuário</ModalTitle>
+          <ModalTitle>
+            {userUpdateId ? "Edição" : "Cadastro"} de Usuário
+          </ModalTitle>
           <button onClick={() => handleCloseModal()}>
             <Close size={25} color="#000" />
           </button>
@@ -132,7 +134,7 @@ export default function RegisterMapModal({
             <Select
               value={type}
               label="Escolha o tipo do usuário"
-              sx={{ width: '100%' }}
+              sx={{ width: "100%" }}
               onChange={handleChangeType}
             >
               <MenuItem value={1}>Professor</MenuItem>
@@ -143,20 +145,27 @@ export default function RegisterMapModal({
             <LabelInput>Senha:</LabelInput>
             <InputText
               value={password}
-              type='password'
+              type="password"
               onChange={(e) => setPassword(e.target.value)}
-              placeholder={userUpdateId ? "Senha (opcional)" : "Digite a senha do usuário"}
+              placeholder={
+                userUpdateId ? "Senha (opcional)" : "Digite a senha do usuário"
+              }
               style={{ width: "100%" }}
             />
           </WrapperInput>
         </BodyModalWrapper>
-        <div style={{color: "red", padding: "0px 80px"}}>{errorMessage}</div>
+        <div style={{ color: "red", padding: "0px 80px" }}>{errorMessage}</div>
         <FooterModalWrapper>
           <Button
             title="Salvar"
-            disabled={name.length < 1 || email.length < 1 || isNaN(type) 
-              || (!userUpdateId && password.length < 8) 
-              || (userUpdateId !== null && password.length < 8 && password.length > 0)
+            disabled={
+              name.length < 1 ||
+              email.length < 1 ||
+              isNaN(type) ||
+              (!userUpdateId && password.length < 8) ||
+              (userUpdateId !== null &&
+                password.length < 8 &&
+                password.length > 0)
             }
             handleClick={() => sendForm()}
             isLoading={loading}

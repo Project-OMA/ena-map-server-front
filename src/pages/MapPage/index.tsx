@@ -12,6 +12,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Paper from "@mui/material/Paper";
 
 import debounce from 'lodash/debounce';
+import Header from "../../common/components/Header/Header";
 
 export default function MapPage() {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -82,6 +83,7 @@ export default function MapPage() {
 
   return (
     <>
+      <Header title="Mapas" />
       <HeaderMapsPage>
         <button onClick={() => setOpenModal(true)}>Cadastrar Mapas</button>
       </HeaderMapsPage>

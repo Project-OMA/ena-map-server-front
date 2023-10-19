@@ -25,6 +25,7 @@ export const SeparatorLine = styled.div`
 
 export const HeaderBox = styled.div`
   height: 52px;
+  background-color: #fff;
   width: 100vw;
   display: flex;
   flex-direction: row;

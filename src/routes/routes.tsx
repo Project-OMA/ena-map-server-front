@@ -9,12 +9,12 @@ import { PrivateRoute } from "./privateRoute";
 import Logout from "../guard/auth/components/Logout";
 
 export const ROUTES_PATH = {
-  login: { route: "/login", use: "/login" },
-  logout: { route: "/logout", use: "/logout" },
-  home: { route: "/", use: "/" },
-  groups: { route: "/groups", use: "/groups" },
-  map: { route: "/map", use: "/map" },
-  users: { route: "/users", use: "/users" },
+  login: { route: "/mapserver/login", use: "/mapserver/login" },
+  logout: { route: "/mapserver/logout", use: "/mapserver/logout" },
+  home: { route: "/mapserver", use: "/mapserver" },
+  groups: { route: "/mapserver/groups", use: "/mapserver/groups" },
+  map: { route: "/mapserver/map", use: "/mapserver/map" },
+  users: { route: "/mapserver/users", use: "/mapserver/users" },
 };
 
 export const ROUTES = [
@@ -56,6 +56,7 @@ export default function ApplicationRoutes() {
       if (r.isPublic) {
         return <Route key={i} {...r} />;
       } else {
+        console.log("testeeee", i);
         return (
           <Route
             key={i}
