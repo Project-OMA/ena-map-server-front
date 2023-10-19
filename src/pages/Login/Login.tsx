@@ -1,7 +1,13 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import Button from "../../common/components/Button";
 import InputText from "../../common/components/InputText";
-import { FormSection, Title, WrapperLogin, WrapperLoginCard } from "./style";
+import {
+  ErrorText,
+  FormSection,
+  Title,
+  WrapperLogin,
+  WrapperLoginCard,
+} from "./style";
 import { authGuard } from "../../guard/auth/components/AuthGuard";
 import { useRoutes } from "../../hooks/useRoutes";
 import { useUser } from "../../hooks/useUser";
@@ -10,6 +16,9 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { routes } = useRoutes();
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const { handleLogin, loading } = useUser();
 
   useEffect(() => {
@@ -27,12 +36,24 @@ export default function Login() {
     return true;
   }, [email, password]);
 
+  const submitLogin = async (data: any) => {
+    try {
+      console.log("olha aquiiii");
+      await handleLogin(data);
+    } catch (error: any) {
+      console.log("errrrrro", error.response.data.message);
+      setIsError(true);
+      setErrorMessage(error?.response?.data?.message);
+    }
+  };
+
   return (
     <WrapperLogin>
       <WrapperLoginCard>
         <FormSection>
           <Title>Login</Title>
           <InputText
+            isError={isError}
             type="email"
             placeholder="e-mail"
             onChange={(e) => setEmail(e.target.value)}
@@ -41,10 +62,12 @@ export default function Login() {
             type="password"
             placeholder="password"
             onChange={(e) => setPassword(e.target.value)}
+            isError={isError}
           />
+          {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
           <Button
             title="Entrar"
-            handleClick={() => handleLogin({ email, password })}
+            handleClick={() => submitLogin({ email, password })}
             disabled={disableButton}
             style={{ width: "100%" }}
             isLoading={loading}

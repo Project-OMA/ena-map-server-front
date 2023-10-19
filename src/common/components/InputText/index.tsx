@@ -1,13 +1,15 @@
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { useStyles } from "./style";
 
-export default function InputText({ ...params }: TextFieldProps) {
-  const classes = useStyles();
+interface InputTextI {
+  isError?: boolean;
+}
+
+type InputTextType = TextFieldProps & InputTextI;
+
+export default function InputText(props: InputTextType) {
+  const classes = useStyles({ isError: props.isError });
   return (
-    <TextField
-      classes={{ root: classes.root }}
-      {...params}
-      variant="outlined"
-    />
+    <TextField classes={{ root: classes.root }} {...props} variant="outlined" />
   );
 }

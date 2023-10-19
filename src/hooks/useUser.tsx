@@ -48,6 +48,7 @@ export function useUser() {
         }
       } catch (error) {
         console.error(error);
+        throw error;
       } finally {
         setLoading(false);
       }

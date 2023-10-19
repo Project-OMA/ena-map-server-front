@@ -1,0 +1,12 @@
+version: "3.1"
+
+services:
+  ena-map-front:
+    build: ./
+    container_name: ena-map-front
+    stdin_open: true
+    volumes:
+      - .:/usr/app
+    ports:
+      - 7767:7767
+    command: npm start

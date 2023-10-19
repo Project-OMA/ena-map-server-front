@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import GroupFormModal from "../../common/modal/GroupFormModal";
-import { Header } from "./style";
+import { HeaderGroup } from "./style";
 import { groupService } from "../../service/axiosServer";
 import { LoadingComponent } from "../../common/styled/LoadingComponent";
 import Table from "@mui/material/Table";
@@ -11,6 +11,13 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
+import TablePagination from '@mui/material/TablePagination';
+import TextField from '@mui/material/TextField';
+import SearchIcon from '@mui/icons-material/Search';
+import InputAdornment from '@mui/material/InputAdornment';
+
+import debounce from 'lodash/debounce';
+import Header from "../../common/components/Header/Header";
 
 export default function Groups() {
   const [openFormModal, setOpenFormModal] = useState<boolean>(false);
@@ -18,6 +25,11 @@ export default function Groups() {
   const [loading, setLoading] = useState<boolean>(false);
 
   const [groups, setGroups] = useState([]);
+
+  const [search, setSearch] = useState<string>("");
+  const [page, setPage] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(10);
+  const [count, setCount] = useState<number>(0);
 
   const closeFormModal = () => {
     setGroupUpdateId(null);
@@ -29,12 +41,15 @@ export default function Groups() {
     setOpenFormModal(true);
   };
 
-  const loadGroups = useCallback(async () => {
+  const loadGroups = useCallback(async (search: string, limit: number, page: number) => {
     if (!openFormModal) {
       try {
         setLoading(true);
-        const response = await groupService.findAll();
-        setGroups(response.data);
+        const pagedGroups = (await groupService.findAllPaged(search, limit, page + 1));
+        setGroups(pagedGroups.data);
+        setLimit(pagedGroups.limit);
+        setPage(pagedGroups.page - 1);
+        setCount(pagedGroups.count);
       } catch (error) {
         console.error(error);
       } finally {
@@ -43,9 +58,28 @@ export default function Groups() {
     }
   }, [openFormModal]);
 
+  const debouncedLoadUsers = debounce(loadGroups, 1500);
+
   useEffect(() => {
-    loadGroups();
+    loadGroups(search, limit, page);
   }, [loadGroups]);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+    loadGroups(search, limit, newPage);
+  };
+
+  const handleChangeLimit = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLimit(+event.target.value);
+    setPage(0);
+    loadGroups(search, +event.target.value, 0);
+  };
+
+  const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newSearch = event.target.value;
+    setSearch(newSearch);
+    debouncedLoadUsers(newSearch, limit, 0);
+  };
 
   const renderGroupsCards = useCallback(() => {
     if (groups.length > 0) {
@@ -79,31 +113,53 @@ export default function Groups() {
 
   return (
     <>
-      <Header>
+      <Header title="Grupos" />
+      <HeaderGroup>
         <button onClick={() => setOpenFormModal(true)}>Cadastrar grupo</button>
-      </Header>
+      </HeaderGroup>
 
       <GroupFormModal
         open={openFormModal}
         closeModal={closeFormModal}
         groupUpdateId={groupUpdateId}
       />
-
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Id</TableCell>
-              <TableCell>Nome</TableCell>
-              <TableCell>Id do Proprietário</TableCell>
-              <TableCell>Criado em</TableCell>
-              <TableCell>Atualizado em</TableCell>
-              <TableCell>Ações</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{renderGroupsCards()}</TableBody>
-        </Table>
-      </TableContainer>
+      <Paper sx={{ width: '100%', height: '100%', marginY: 5}}>
+        <TextField
+          id="search"
+          type="search"
+          label="Pesquisar"
+          value={search}
+          onChange={handleChangeSearch}
+          sx={{ width: "100%"}}
+          InputProps={{
+            startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>,
+          }}
+        />
+        <TableContainer component={Paper} sx={{ marginTop: 2}}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Id</TableCell>
+                <TableCell>Nome</TableCell>
+                <TableCell>Id do Proprietário</TableCell>
+                <TableCell>Criado em</TableCell>
+                <TableCell>Atualizado em</TableCell>
+                <TableCell>Ações</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>{renderGroupsCards()}</TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 15]}
+          component="div"
+          count={count}
+          rowsPerPage={limit}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeLimit}
+        />
+      </Paper>
     </>
   );
 }

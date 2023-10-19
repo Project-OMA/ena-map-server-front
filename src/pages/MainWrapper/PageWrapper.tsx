@@ -12,8 +12,6 @@ export default function PageWrapper({ children }: PageWrapperProps) {
   return (
     <Router>
       <WrapperApplication>
-        {!window.location.pathname.includes("login") &&
-          !window.location.pathname.includes("logout") && <Header />}
         {children}
         <Footer />
       </WrapperApplication>

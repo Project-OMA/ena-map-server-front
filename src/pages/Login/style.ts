@@ -34,3 +34,8 @@ export const FormSection = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+export const ErrorText = styled.p`
+  color: #ff3333;
+  font-size: 0.9rem;
+`;
