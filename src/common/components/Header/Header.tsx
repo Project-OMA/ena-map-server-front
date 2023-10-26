@@ -6,13 +6,14 @@ import {
   UserSection,
   WrapperButton,
 } from "./style";
-import { ArrowLeft } from "@styled-icons/fluentui-system-regular";
 import { Drawer } from "@mui/material";
 import { useCallback, useState } from "react";
 import { UserCircle } from "@styled-icons/heroicons-solid/";
 import { useUser } from "../../../hooks/useUser";
 import { LogOut } from "@styled-icons/boxicons-regular";
 import { Menu } from "@styled-icons/boxicons-regular";
+import convertUserType from '../../../utils/convertUserType';
+import { isAdmin, isTeacher } from '../../../utils/verifyTypeFromUser';
 interface HeaderI {
   title: string;
 }
@@ -47,26 +48,49 @@ export default function Header({ title }: HeaderI) {
         <UserSection>
           <UserCircle size={50} />
           {user?.name}
+
+          <div style={{marginTop: 5}} >
+            <strong>Tipo: </strong>
+            {user ? convertUserType(user.type) : ""}
+          </div>
         </UserSection>
         <ButtonSection>
+          {/* ADMIN - TEACHER */}
+          { (
+              isAdmin(user?.type) || isTeacher(user?.type)
+            ) &&
+            <>
+              <ButtonHeader
+                isActive={handleBunttonActive("groups")}
+                onClick={() => routes.groups()}
+              >
+                Grupos
+              </ButtonHeader>
+
+              <ButtonHeader
+                isActive={handleBunttonActive("users")}
+                onClick={() => routes.users()}
+              >
+                Usuários
+              </ButtonHeader>
+
+              <ButtonHeader
+                isActive={handleBunttonActive("map")}
+                onClick={() => routes.map()}
+              >
+                Mapas
+              </ButtonHeader>
+            </>
+          }
+          
+          {/* All users */}
           <ButtonHeader
-            isActive={handleBunttonActive("groups")}
-            onClick={() => routes.groups()}
+            isActive={handleBunttonActive("my-groups")}
+            onClick={() => routes.myGroups()}
           >
-            Grupos
+            Meus grupos
           </ButtonHeader>
-          <ButtonHeader
-            isActive={handleBunttonActive("map")}
-            onClick={() => routes.map()}
-          >
-            Mapas
-          </ButtonHeader>
-          <ButtonHeader
-            isActive={handleBunttonActive("users")}
-            onClick={() => routes.users()}
-          >
-            Usuários
-          </ButtonHeader>
+
         </ButtonSection>
         <ButtonHeader
           isActive={false}

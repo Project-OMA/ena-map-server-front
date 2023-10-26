@@ -7,12 +7,14 @@ import Groups from "../pages/Groups";
 import Login from "../pages/Login/Login";
 import { PrivateRoute } from "./privateRoute";
 import Logout from "../guard/auth/components/Logout";
+import MyGroups from '../pages/MyGroups';
 
 export const ROUTES_PATH = {
   login: { route: "/mapserver/login", use: "/mapserver/login" },
   logout: { route: "/mapserver/logout", use: "/mapserver/logout" },
   home: { route: "/mapserver", use: "/mapserver" },
   groups: { route: "/mapserver/groups", use: "/mapserver/groups" },
+  myGroups: { route: "/mapserver/my-groups", use: "/mapserver/my-groups" },
   map: { route: "/mapserver/map", use: "/mapserver/map" },
   users: { route: "/mapserver/users", use: "/mapserver/users" },
 };
@@ -48,6 +50,11 @@ export const ROUTES = [
     isPublic: true,
     element: <Groups />,
   },
+  {
+    path: ROUTES_PATH.myGroups.route,
+    isPublic: true,
+    element: <MyGroups />,
+  },
 ];
 
 export default function ApplicationRoutes() {
@@ -56,7 +63,6 @@ export default function ApplicationRoutes() {
       if (r.isPublic) {
         return <Route key={i} {...r} />;
       } else {
-        console.log("testeeee", i);
         return (
           <Route
             key={i}

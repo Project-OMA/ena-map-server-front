@@ -31,6 +31,25 @@ export class GroupService {
     }
   }
 
+  async findAllPagedByUserId(
+    search: string | undefined = undefined, 
+    limit: number | undefined = undefined, 
+    page: number | undefined  = undefined,
+    userId: number | undefined = undefined,
+  ) { console.log({userId: userId})
+    try {
+      if(!userId){
+        throw new Error("Erro! Não foi possível listar os grupos")
+      }
+      return (await this.groupService.get(`/groups/users/${userId}/groups`,{ 
+        params: { search, limit, page } 
+      })).data;
+    } catch (error) {
+      console.error("Erro! Não foi possível listar os grupos. " + error);
+      throw error;
+    }
+  }
+
   async findById(id: number) {
     try {
       return await this.groupService.get(`/groups/${id}`);

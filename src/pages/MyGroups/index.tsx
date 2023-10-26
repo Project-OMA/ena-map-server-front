@@ -18,8 +18,10 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import debounce from 'lodash/debounce';
 import Header from "../../common/components/Header/Header";
+import { useUser } from '../../hooks/useUser';
 
-export default function Groups() {
+export default function MyGroups() {
+  const { user } = useUser();
   const [openFormModal, setOpenFormModal] = useState<boolean>(false);
   const [groupUpdateId, setGroupUpdateId] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -36,7 +38,7 @@ export default function Groups() {
     setOpenFormModal(false);
   };
 
-  const openEditModal = (id: number) => {
+  const openEditModal = (id: number) => { console.log({id})
     setGroupUpdateId(id);
     setOpenFormModal(true);
   };
@@ -45,7 +47,8 @@ export default function Groups() {
     if (!openFormModal) {
       try {
         setLoading(true);
-        const pagedGroups = (await groupService.findAllPaged(search, limit, page + 1));
+        console.log({loadGroup: true})
+        const pagedGroups = (await groupService.findAllPagedByUserId(search, limit, page + 1, user?.id));
         setGroups(pagedGroups.data);
         setLimit(pagedGroups.limit);
         setPage(pagedGroups.page - 1);
@@ -118,11 +121,6 @@ export default function Groups() {
         <button onClick={() => setOpenFormModal(true)}>Cadastrar grupo</button>
       </HeaderGroup>
 
-      <GroupFormModal
-        open={openFormModal}
-        closeModal={closeFormModal}
-        groupUpdateId={groupUpdateId}
-      />
       <Paper sx={{ width: '100%', height: '100%', marginY: 5}}>
         <TextField
           id="search"
