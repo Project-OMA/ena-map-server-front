@@ -2,12 +2,12 @@ import UserTypes from '../constants/UserTypes';
 import Error404 from '../pages/shared/Error404';
 import Logout from "../guard/auth/components/Logout";
 import MyGroups from '../pages/MyGroups';
-import { Navigate } from 'react-router-dom';
 import Home from "../pages/Home/Home";
 import MapPage from "../pages/MapPage";
 import Users from "../pages/Users";
 import Groups from "../pages/Groups";
-import Login from "../pages/Login/Login";
+import { Navigate } from 'react-router-dom';
+import Login from '../pages/Login/Login';
 
 export const ROUTES_PATH = {
   login: { route: "/mapserver/login", use: "/mapserver/login" },
@@ -19,6 +19,16 @@ export const ROUTES_PATH = {
   users: { route: "/mapserver/users", use: "/mapserver/users" }
 };
 export const ROUTES = [
+  {
+    path: ROUTES_PATH.login.route,
+    isPublic: true,
+    component: {
+      [UserTypes.ADMIN]: () => <Navigate to={ROUTES_PATH.home.route} />,
+      [UserTypes.TEACHER]: () => <Navigate to={ROUTES_PATH.home.route} />,
+      [UserTypes.STUDENT]: () => <Navigate to={ROUTES_PATH.home.route} />,
+      [UserTypes.ANY]: () => <Login />,
+    } 
+  },
   {
     path: ROUTES_PATH.logout.route,
     isPublic: true,
