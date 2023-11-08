@@ -1,9 +1,9 @@
 import { useState, useCallback, useEffect } from "react";
-import UserFormModal from "../../common/modal/UserFormModal";
-import UserFileModal from "../../common/modal/UserFileModal";
+import UserFormModal from "../../../common/modal/UserFormModal";
+import UserFileModal from "../../../common/modal/UserFileModal";
 import { HeaderUsers } from "./style";
-import { userService } from "../../service/axiosServer";
-import { LoadingComponent } from "../../common/styled/LoadingComponent";
+import { userService } from "../../../service/axiosServer";
+import { LoadingComponent } from "../../../common/styled/LoadingComponent";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,7 +11,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import convertUserType from "../../utils/convertUserType";
+import convertUserType from "../../../utils/convertUserType";
 import Button from "@mui/material/Button";
 import TablePagination from '@mui/material/TablePagination';
 import TextField from '@mui/material/TextField';
@@ -19,9 +19,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import debounce from 'lodash/debounce';
-import Header from "../../common/components/Header/Header";
+import Header from "../../../common/components/Header/Header";
 
-export default function Users() {
+export default function Admin_Users() {
   const [openCsvModal, setOpenCsvModal] = useState<boolean>(false);
   const [openFormModal, setOpenFormModal] = useState<boolean>(false);
   const [userUpdateId, setUserUpdateId] = useState<number | null>(null);

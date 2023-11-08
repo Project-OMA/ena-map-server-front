@@ -1,8 +1,8 @@
 import { useState, useCallback, useEffect } from "react";
-import GroupFormModal from "../../common/modal/GroupFormModal";
+import GroupFormModal from "../../../common/modal/GroupFormModal";
 import { HeaderGroup } from "./style";
-import { groupService } from "../../service/axiosServer";
-import { LoadingComponent } from "../../common/styled/LoadingComponent";
+import { groupService } from "../../../service/axiosServer";
+import { LoadingComponent } from "../../../common/styled/LoadingComponent";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -17,11 +17,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import debounce from 'lodash/debounce';
-import Header from "../../common/components/Header/Header";
-import { useUser } from '../../hooks/useUser';
+import Header from "../../../common/components/Header/Header";
 
-export default function MyGroups() {
-  const { user } = useUser();
+export default function Teacher_Groups() {
   const [openFormModal, setOpenFormModal] = useState<boolean>(false);
   const [groupUpdateId, setGroupUpdateId] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -38,7 +36,7 @@ export default function MyGroups() {
     setOpenFormModal(false);
   };
 
-  const openEditModal = (id: number) => { console.log({id})
+  const openEditModal = (id: number) => {
     setGroupUpdateId(id);
     setOpenFormModal(true);
   };
@@ -47,8 +45,7 @@ export default function MyGroups() {
     if (!openFormModal) {
       try {
         setLoading(true);
-        console.log({loadGroup: true})
-        const pagedGroups = (await groupService.findAllPagedByUserId(search, limit, page + 1, user?.id));
+        const pagedGroups = (await groupService.findAllPaged(search, limit, page + 1));
         setGroups(pagedGroups.data);
         setLimit(pagedGroups.limit);
         setPage(pagedGroups.page - 1);
@@ -121,6 +118,11 @@ export default function MyGroups() {
         <button onClick={() => setOpenFormModal(true)}>Cadastrar grupo</button>
       </HeaderGroup>
 
+      <GroupFormModal
+        open={openFormModal}
+        closeModal={closeFormModal}
+        groupUpdateId={groupUpdateId}
+      />
       <Paper sx={{ width: '100%', height: '100%', marginY: 5}}>
         <TextField
           id="search"
