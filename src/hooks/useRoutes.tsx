@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { ROUTES_PATH } from "../routes/routes";
+import { ROUTES_PATH } from "../routes/RoutesConfig";
 
 export type UseRoutesReturn = {
   routes: {
