@@ -20,6 +20,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import debounce from 'lodash/debounce';
 import Header from "../../../common/components/Header/Header";
+import UserTypes from '../../../constants/UserTypes';
 
 export default function Teacher_Users() {
   const [openCsvModal, setOpenCsvModal] = useState<boolean>(false);
@@ -36,7 +37,7 @@ export default function Teacher_Users() {
   const loadUsers = useCallback(async (search: string, limit: number, page: number) => {
     if (!openFormModal && !openCsvModal) {
       try {
-        const pagedUsers = (await userService.findAllPaged(search, limit, page + 1));
+        const pagedUsers = (await userService.findAllPaged(search, limit, page + 1, [UserTypes.STUDENT]));
         setUsers(pagedUsers.data);
         setLimit(pagedUsers.limit);
         setPage(pagedUsers.page - 1);
@@ -89,11 +90,8 @@ export default function Teacher_Users() {
       return users.map((user: any) => {
         return (
           <TableRow key={user.id}>
-            <TableCell component="th" scope="row">
-              {user.id}
-            </TableCell>
             <TableCell>{user.name}</TableCell>
-            <TableCell>{user.email}</TableCell>
+            <TableCell component="th" scope="row">{user.email}</TableCell>
             <TableCell>{convertUserType(user.type)}</TableCell>
             <TableCell>{new Date(user.created_at).toLocaleString()}</TableCell>
             <TableCell>{new Date(user.updated_at).toLocaleString()}</TableCell>
@@ -114,7 +112,7 @@ export default function Teacher_Users() {
 
   return (
     <>
-      <Header title="Usuários" />
+      <Header title="Alunos" />
       <HeaderUsers>
         <button onClick={() => setOpenCsvModal(true)}>Cadastrar por CSV</button>
         <button onClick={() => setOpenFormModal(true)}>
@@ -145,7 +143,6 @@ export default function Teacher_Users() {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                <TableCell>Id</TableCell>
                 <TableCell>Nome</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>Tipo</TableCell>

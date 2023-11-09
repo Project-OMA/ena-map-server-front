@@ -53,8 +53,7 @@ export default function Header({ title }: HeaderI) {
               {user?.name}
 
               <div style={{marginTop: 5}} >
-                <strong>Tipo: </strong>
-                {user ? convertUserType(user.type) : ""}
+              <strong>{user ? convertUserType(user.type) : ""}</strong>
               </div>
             </UserSection>
             <ButtonSection>
@@ -74,7 +73,7 @@ export default function Header({ title }: HeaderI) {
                     isActive={handleBunttonActive("users")}
                     onClick={() => routes.users()}
                   >
-                    Usuários
+                    {isAdmin(user?.type) ? "Usuários": "Alunos"}
                   </ButtonHeader>
 
                   <ButtonHeader

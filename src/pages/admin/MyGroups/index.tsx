@@ -19,9 +19,11 @@ import InputAdornment from '@mui/material/InputAdornment';
 import debounce from 'lodash/debounce';
 import Header from "../../../common/components/Header/Header";
 import { useUser } from '../../../hooks/useUser';
+import { useRoutes } from '../../../hooks/useRoutes';
 
 export default function Admin_MyGroups() {
   const { user } = useUser();
+  const { routes } = useRoutes();
   const [openFormModal, setOpenFormModal] = useState<boolean>(false);
   const [groupUpdateId, setGroupUpdateId] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -98,10 +100,24 @@ export default function Admin_MyGroups() {
             <TableCell>{new Date(group.updated_at).toLocaleString()}</TableCell>
             <TableCell>
               <Button
+                sx={{marginRight: 2}}
+                variant="contained"
+                onClick={() => routes.groupById(group.id)}
+              >
+                Ver
+              </Button>
+              <Button
+                sx={{marginRight: 2}}
                 variant="contained"
                 onClick={() => openEditModal(group.id)}
               >
                 Editar
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => {}}
+              >
+                Excluir
               </Button>
             </TableCell>
           </TableRow>

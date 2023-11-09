@@ -19,9 +19,11 @@ import InputAdornment from '@mui/material/InputAdornment';
 import debounce from 'lodash/debounce';
 import Header from "../../../common/components/Header/Header";
 import { useUser } from '../../../hooks/useUser';
+import { useRoutes } from '../../../hooks/useRoutes';
 
 export default function Student_MyGroups() {
   const { user } = useUser();
+  const { routes } = useRoutes();
   const [openFormModal, setOpenFormModal] = useState<boolean>(false);
   const [groupUpdateId, setGroupUpdateId] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -89,19 +91,16 @@ export default function Student_MyGroups() {
       return groups.map((group: any) => {
         return (
           <TableRow key={group.id}>
-            <TableCell component="th" scope="row">
-              {group.id}
-            </TableCell>
-            <TableCell>{group.name}</TableCell>
+            <TableCell component="th" scope="row">{group.name}</TableCell>
             <TableCell>{group.id_owner}</TableCell>
             <TableCell>{new Date(group.created_at).toLocaleString()}</TableCell>
             <TableCell>{new Date(group.updated_at).toLocaleString()}</TableCell>
             <TableCell>
               <Button
                 variant="contained"
-                onClick={() => openEditModal(group.id)}
+                onClick={() => routes.groupById(group.id)}
               >
-                Editar
+                Ver
               </Button>
             </TableCell>
           </TableRow>
@@ -137,7 +136,6 @@ export default function Student_MyGroups() {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Id</TableCell>
                 <TableCell>Nome</TableCell>
                 <TableCell>Id do Proprietário</TableCell>
                 <TableCell>Criado em</TableCell>

@@ -8,6 +8,7 @@ export type UseRoutesReturn = {
     map: () => void;
     users: () => void;
     groups: () => void;
+    groupById: (id: number) => void;
     myGroups: () => void;
     goBack: () => void;
     logout: () => void;
@@ -29,6 +30,9 @@ export function useRoutes(): UseRoutesReturn {
       },
       groups: () => {
         navigate(ROUTES_PATH.groups.use);
+      },
+      groupById: (id: number) => {
+        navigate(`${ROUTES_PATH.groupById.use}/${id}`);
       },
       myGroups: () => {
         navigate(ROUTES_PATH.myGroups.use);

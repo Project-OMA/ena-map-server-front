@@ -19,12 +19,14 @@ import Admin_Home from '../pages/admin/Home/Home';
 import Admin_Maps from '../pages/admin/Maps';
 import Admin_Users from '../pages/admin/Users';
 import Admin_Groups from '../pages/admin/Groups';
+import Group from '../pages/shared/Group';
 
 export const ROUTES_PATH = {
   login: { route: "/mapserver/login", use: "/mapserver/login" },
   logout: { route: "/mapserver/logout", use: "/mapserver/logout" },
   home: { route: "/mapserver", use: "/mapserver" },
   groups: { route: "/mapserver/groups", use: "/mapserver/groups" },
+  groupById: { route: "/mapserver/groups/:id", use: "/mapserver/groups" },
   myGroups: { route: "/mapserver/my-groups", use: "/mapserver/my-groups" },
   map: { route: "/mapserver/map", use: "/mapserver/map" },
   users: { route: "/mapserver/users", use: "/mapserver/users" }
@@ -87,6 +89,16 @@ export const ROUTES = [
       [UserTypes.ADMIN]: () => <Admin_Groups />,
       [UserTypes.TEACHER]: () => <Teacher_Groups />,
       [UserTypes.STUDENT]: () => <Error404 />,
+      [UserTypes.ANY]: () => <Error404 />,
+    },
+  },
+  {
+    path: ROUTES_PATH.groupById.route,
+    isPublic: false,
+    component: {
+      [UserTypes.ADMIN]: () => <Group />,
+      [UserTypes.TEACHER]: () => <Group />,
+      [UserTypes.STUDENT]: () => <Group />,
       [UserTypes.ANY]: () => <Error404 />,
     },
   },

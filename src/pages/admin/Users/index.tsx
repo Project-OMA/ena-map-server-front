@@ -99,10 +99,17 @@ export default function Admin_Users() {
             <TableCell>{new Date(user.updated_at).toLocaleString()}</TableCell>
             <TableCell>
               <Button
+                sx={{marginRight: 2}}
                 variant="contained"
                 onClick={() => openEditModal(user.id)}
               >
                 Editar
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => {}}
+              >
+                Excluir
               </Button>
             </TableCell>
           </TableRow>

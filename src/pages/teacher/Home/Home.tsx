@@ -15,7 +15,7 @@ export default function Teacher_Home() {
         <ButtonWrapper>
           <ButtonSector onClick={() => routes.users()}>
             <img src={iconAluno} alt="Botão para a página de Usuários" />
-            <p>Usuários</p>
+            <p>Alunos</p>
           </ButtonSector>
 
           <ButtonSector onClick={() => routes.groups()}>
