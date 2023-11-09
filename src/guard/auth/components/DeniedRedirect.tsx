@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { ROUTES_PATH } from "../../../routes/routes";
+import { ROUTES_PATH } from "../../../routes/RoutesConfig";
 
 export const DeniedRedirect = () => {
   if (

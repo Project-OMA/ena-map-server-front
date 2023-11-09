@@ -1,8 +1,8 @@
 import { useState, useCallback, useEffect } from "react";
-import GroupFormModal from "../../common/modal/GroupFormModal";
+import GroupFormModal from "../../../common/modal/GroupFormModal";
 import { HeaderGroup } from "./style";
-import { groupService } from "../../service/axiosServer";
-import { LoadingComponent } from "../../common/styled/LoadingComponent";
+import { groupService } from "../../../service/axiosServer";
+import { LoadingComponent } from "../../../common/styled/LoadingComponent";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -17,9 +17,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import debounce from 'lodash/debounce';
-import Header from "../../common/components/Header/Header";
+import Header from "../../../common/components/Header/Header";
+import { useRoutes } from '../../../hooks/useRoutes';
+import { useUser } from '../../../hooks/useUser';
 
-export default function Groups() {
+export default function Teacher_Groups() {
+  const { user } = useUser();
+  const { routes } = useRoutes();
   const [openFormModal, setOpenFormModal] = useState<boolean>(false);
   const [groupUpdateId, setGroupUpdateId] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -82,7 +86,7 @@ export default function Groups() {
   };
 
   const renderGroupsCards = useCallback(() => {
-    if (groups.length > 0) {
+    if (groups && groups.length > 0) {
       return groups.map((group: any) => {
         return (
           <TableRow key={group.id}>
@@ -95,11 +99,29 @@ export default function Groups() {
             <TableCell>{new Date(group.updated_at).toLocaleString()}</TableCell>
             <TableCell>
               <Button
+                sx={{marginRight: 2}}
+                variant="contained"
+                onClick={() => routes.groupById(group.id)}
+              >
+                Ver
+              </Button>
+              <Button
+                sx={{marginRight: 2}}
                 variant="contained"
                 onClick={() => openEditModal(group.id)}
               >
                 Editar
               </Button>
+              {
+                group.id_owner === user.id
+                &&
+                <Button
+                  variant="contained"
+                  onClick={() => {}}
+                >
+                  Excluir
+                </Button>
+              }
             </TableCell>
           </TableRow>
         );
