@@ -38,10 +38,8 @@ export default function Login() {
 
   const submitLogin = async (data: any) => {
     try {
-      console.log("olha aquiiii");
       await handleLogin(data);
     } catch (error: any) {
-      console.log("errrrrro", error.response.data.message);
       setIsError(true);
       setErrorMessage(error?.response?.data?.message);
     }

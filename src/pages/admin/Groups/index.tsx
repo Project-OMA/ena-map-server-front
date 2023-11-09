@@ -11,14 +11,14 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
-import TablePagination from '@mui/material/TablePagination';
-import TextField from '@mui/material/TextField';
-import SearchIcon from '@mui/icons-material/Search';
-import InputAdornment from '@mui/material/InputAdornment';
+import TablePagination from "@mui/material/TablePagination";
+import TextField from "@mui/material/TextField";
+import SearchIcon from "@mui/icons-material/Search";
+import InputAdornment from "@mui/material/InputAdornment";
 
-import debounce from 'lodash/debounce';
+import debounce from "lodash/debounce";
 import Header from "../../../common/components/Header/Header";
-import { useRoutes } from '../../../hooks/useRoutes';
+import { useRoutes } from "../../../hooks/useRoutes";
 
 export default function Admin_Groups() {
   const { routes } = useRoutes();
@@ -43,22 +43,29 @@ export default function Admin_Groups() {
     setOpenFormModal(true);
   };
 
-  const loadGroups = useCallback(async (search: string, limit: number, page: number) => {
-    if (!openFormModal) {
-      try {
-        setLoading(true);
-        const pagedGroups = (await groupService.findAllPaged(search, limit, page + 1));
-        setGroups(pagedGroups.data);
-        setLimit(pagedGroups.limit);
-        setPage(pagedGroups.page - 1);
-        setCount(pagedGroups.count);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
+  const loadGroups = useCallback(
+    async (search: string, limit: number, page: number) => {
+      if (!openFormModal) {
+        try {
+          setLoading(true);
+          const pagedGroups = await groupService.findAllPaged(
+            search,
+            limit,
+            page + 1
+          );
+          setGroups(pagedGroups.data);
+          setLimit(pagedGroups.limit);
+          setPage(pagedGroups.page - 1);
+          setCount(pagedGroups.count);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false);
+        }
       }
-    }
-  }, [openFormModal]);
+    },
+    [openFormModal]
+  );
 
   const debouncedLoadUsers = debounce(loadGroups, 1500);
 
@@ -97,23 +104,20 @@ export default function Admin_Groups() {
             <TableCell>{new Date(group.updated_at).toLocaleString()}</TableCell>
             <TableCell>
               <Button
-                sx={{marginRight: 2}}
+                sx={{ marginRight: 2 }}
                 variant="contained"
                 onClick={() => routes.groupById(group.id)}
               >
                 Ver
               </Button>
               <Button
-                sx={{marginRight: 2}}
+                sx={{ marginRight: 2 }}
                 variant="contained"
                 onClick={() => openEditModal(group.id)}
               >
                 Editar
               </Button>
-              <Button
-                variant="contained"
-                onClick={() => {}}
-              >
+              <Button variant="contained" onClick={() => {}}>
                 Excluir
               </Button>
             </TableCell>
@@ -139,19 +143,23 @@ export default function Admin_Groups() {
         closeModal={closeFormModal}
         groupUpdateId={groupUpdateId}
       />
-      <Paper sx={{ width: '100%', height: '100%', marginY: 5}}>
+      <Paper sx={{ width: "100%", height: "100%", marginY: 5 }}>
         <TextField
           id="search"
           type="search"
           label="Pesquisar"
           value={search}
           onChange={handleChangeSearch}
-          sx={{ width: "100%"}}
+          sx={{ width: "100%" }}
           InputProps={{
-            startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>,
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
           }}
         />
-        <TableContainer component={Paper} sx={{ marginTop: 2}}>
+        <TableContainer component={Paper} sx={{ marginTop: 2 }}>
           <Table>
             <TableHead>
               <TableRow>

@@ -17,14 +17,16 @@ export class GroupService {
   }
 
   async findAllPaged(
-    search: string | undefined = undefined, 
-    limit: number | undefined = undefined, 
-    page: number | undefined  = undefined
+    search: string | undefined = undefined,
+    limit: number | undefined = undefined,
+    page: number | undefined = undefined
   ) {
     try {
-      return (await this.groupService.get(`/groups`,{ 
-        params: { search, limit, page } 
-      })).data;
+      return (
+        await this.groupService.get(`/groups`, {
+          params: { search, limit, page },
+        })
+      ).data;
     } catch (error) {
       console.error("Erro! Não foi possível listar os grupos. " + error);
       throw error;
@@ -32,18 +34,20 @@ export class GroupService {
   }
 
   async findAllPagedByUserId(
-    search: string | undefined = undefined, 
-    limit: number | undefined = undefined, 
-    page: number | undefined  = undefined,
-    userId: number | undefined = undefined,
-  ) { console.log({userId: userId})
+    search: string | undefined = undefined,
+    limit: number | undefined = undefined,
+    page: number | undefined = undefined,
+    userId: number | undefined = undefined
+  ) {
     try {
-      if(!userId){
-        throw new Error("Erro! Não foi possível listar os grupos")
+      if (!userId) {
+        throw new Error("Erro! Não foi possível listar os grupos");
       }
-      return (await this.groupService.get(`/groups/users/${userId}/groups`,{ 
-        params: { search, limit, page } 
-      })).data;
+      return (
+        await this.groupService.get(`/groups/users/${userId}/groups`, {
+          params: { search, limit, page },
+        })
+      ).data;
     } catch (error) {
       console.error("Erro! Não foi possível listar os grupos. " + error);
       throw error;

@@ -98,7 +98,7 @@ export default function RegisterMapModal({
   const handleLoadUsers = useCallback(async () => {
     try {
       const response = await userService.findAll();
-      setUsers(response.data);
+      setUsers(response);
     } catch (error) {
       console.error(error);
     }

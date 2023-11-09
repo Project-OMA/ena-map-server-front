@@ -11,15 +11,15 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
-import TablePagination from '@mui/material/TablePagination';
-import TextField from '@mui/material/TextField';
-import SearchIcon from '@mui/icons-material/Search';
-import InputAdornment from '@mui/material/InputAdornment';
+import TablePagination from "@mui/material/TablePagination";
+import TextField from "@mui/material/TextField";
+import SearchIcon from "@mui/icons-material/Search";
+import InputAdornment from "@mui/material/InputAdornment";
 
-import debounce from 'lodash/debounce';
+import debounce from "lodash/debounce";
 import Header from "../../../common/components/Header/Header";
-import { useUser } from '../../../hooks/useUser';
-import { useRoutes } from '../../../hooks/useRoutes';
+import { useUser } from "../../../hooks/useUser";
+import { useRoutes } from "../../../hooks/useRoutes";
 
 export default function Teacher_MyGroups() {
   const { user } = useUser();
@@ -40,28 +40,35 @@ export default function Teacher_MyGroups() {
     setOpenFormModal(false);
   };
 
-  const openEditModal = (id: number) => { console.log({id})
+  const openEditModal = (id: number) => {
     setGroupUpdateId(id);
     setOpenFormModal(true);
   };
 
-  const loadGroups = useCallback(async (search: string, limit: number, page: number) => {
-    if (!openFormModal) {
-      try {
-        setLoading(true);
-        console.log({loadGroup: true})
-        const pagedGroups = (await groupService.findAllPagedByUserId(search, limit, page + 1, user?.id));
-        setGroups(pagedGroups.data);
-        setLimit(pagedGroups.limit);
-        setPage(pagedGroups.page - 1);
-        setCount(pagedGroups.count);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
+  const loadGroups = useCallback(
+    async (search: string, limit: number, page: number) => {
+      if (!openFormModal) {
+        try {
+          setLoading(true);
+          const pagedGroups = await groupService.findAllPagedByUserId(
+            search,
+            limit,
+            page + 1,
+            user?.id
+          );
+          setGroups(pagedGroups.data);
+          setLimit(pagedGroups.limit);
+          setPage(pagedGroups.page - 1);
+          setCount(pagedGroups.count);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false);
+        }
       }
-    }
-  }, [openFormModal]);
+    },
+    [openFormModal]
+  );
 
   const debouncedLoadUsers = debounce(loadGroups, 1500);
 
@@ -100,23 +107,20 @@ export default function Teacher_MyGroups() {
             <TableCell>{new Date(group.updated_at).toLocaleString()}</TableCell>
             <TableCell>
               <Button
-                sx={{marginRight: 2}}
+                sx={{ marginRight: 2 }}
                 variant="contained"
                 onClick={() => routes.groupById(group.id)}
               >
                 Ver
               </Button>
               <Button
-                sx={{marginRight: 2}}
+                sx={{ marginRight: 2 }}
                 variant="contained"
                 onClick={() => openEditModal(group.id)}
               >
                 Editar
               </Button>
-              <Button
-                variant="contained"
-                onClick={() => {}}
-              >
+              <Button variant="contained" onClick={() => {}}>
                 Excluir
               </Button>
             </TableCell>
@@ -137,19 +141,23 @@ export default function Teacher_MyGroups() {
         <button onClick={() => setOpenFormModal(true)}>Cadastrar grupo</button>
       </HeaderGroup>
 
-      <Paper sx={{ width: '100%', height: '100%', marginY: 5}}>
+      <Paper sx={{ width: "100%", height: "100%", marginY: 5 }}>
         <TextField
           id="search"
           type="search"
           label="Pesquisar"
           value={search}
           onChange={handleChangeSearch}
-          sx={{ width: "100%"}}
+          sx={{ width: "100%" }}
           InputProps={{
-            startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>,
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
           }}
         />
-        <TableContainer component={Paper} sx={{ marginTop: 2}}>
+        <TableContainer component={Paper} sx={{ marginTop: 2 }}>
           <Table>
             <TableHead>
               <TableRow>
