@@ -1,6 +1,9 @@
 enum UserTypes {
-    TEACHER = 1,
-    STUDENT = 2
+  ADMIN = 1,
+  TEACHER = 2,
+  STUDENT = 3,
+
+  ANY = 0
 }
 
 export default UserTypes;

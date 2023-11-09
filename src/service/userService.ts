@@ -19,11 +19,12 @@ export class UserService {
   async findAllPaged(
     search: string | undefined = undefined, 
     limit: number | undefined = undefined, 
-    page: number | undefined  = undefined
+    page: number | undefined  = undefined,
+    userTypes: number[] | undefined = undefined
   ) {
     try{
       return (await this.userService.get(`/users`,{ 
-        params: { search, limit, page } 
+        params: { search, limit, page, userTypes } 
       })).data;
     } catch(error){
       console.error("Erro! Não foi possível listar os usuários. " + error);

@@ -1,5 +1,5 @@
 import "./App.css";
-import PageWrapper from "./pages/MainWrapper/PageWrapper";
+import PageWrapper from "./pages/shared/MainWrapper/PageWrapper";
 import Providers from "./providers";
 import ApplicationRoutes from "./routes/routes";
 import { MuiTheme } from "./themes";

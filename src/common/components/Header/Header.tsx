@@ -6,13 +6,14 @@ import {
   UserSection,
   WrapperButton,
 } from "./style";
-import { ArrowLeft } from "@styled-icons/fluentui-system-regular";
 import { Drawer } from "@mui/material";
 import { useCallback, useState } from "react";
 import { UserCircle } from "@styled-icons/heroicons-solid/";
 import { useUser } from "../../../hooks/useUser";
 import { LogOut } from "@styled-icons/boxicons-regular";
 import { Menu } from "@styled-icons/boxicons-regular";
+import convertUserType from '../../../utils/convertUserType';
+import { isAdmin, isTeacher } from '../../../utils/verifyTypeFromUser';
 interface HeaderI {
   title: string;
 }
@@ -42,51 +43,78 @@ export default function Header({ title }: HeaderI) {
   );
 
   return (
-    <HeaderBox>
-      <Drawer anchor="left" open={open} onClose={handleClose}>
-        <UserSection>
-          <UserCircle size={50} />
-          {user?.name}
-        </UserSection>
-        <ButtonSection>
-          <ButtonHeader
-            isActive={handleBunttonActive("groups")}
-            onClick={() => routes.groups()}
-          >
-            Grupos
-          </ButtonHeader>
-          <ButtonHeader
-            isActive={handleBunttonActive("map")}
-            onClick={() => routes.map()}
-          >
-            Mapas
-          </ButtonHeader>
-          <ButtonHeader
-            isActive={handleBunttonActive("users")}
-            onClick={() => routes.users()}
-          >
-            Usuários
-          </ButtonHeader>
-        </ButtonSection>
-        <ButtonHeader
-          isActive={false}
-          style={{ marginTop: "auto", gap: 10 }}
-          onClick={() => routes.logout()}
-        >
-          <LogOut size={20} /> Logout
-        </ButtonHeader>
-      </Drawer>
-      <button onClick={() => setOpen(true)}>
-        {" "}
-        <Menu size={25} />
-      </button>
+    <>
+      {
+        user &&
+        <HeaderBox>
+          <Drawer anchor="left" open={open} onClose={handleClose}>
+            <UserSection>
+              <UserCircle size={50} />
+              {user?.name}
 
-      <HeaderName>
-        <ButtonHeader isActive={false} onClick={() => routes.home()}>
-          {title}
-        </ButtonHeader>
-      </HeaderName>
-      <WrapperButton></WrapperButton>
-    </HeaderBox>
+              <div style={{marginTop: 5}} >
+              <strong>{user ? convertUserType(user.type) : ""}</strong>
+              </div>
+            </UserSection>
+            <ButtonSection>
+              {/* ADMIN - TEACHER */}
+              { (
+                  isAdmin(user?.type) || isTeacher(user?.type)
+                ) &&
+                <>
+                  <ButtonHeader
+                    isActive={handleBunttonActive("groups")}
+                    onClick={() => routes.groups()}
+                  >
+                    Grupos
+                  </ButtonHeader>
+
+                  <ButtonHeader
+                    isActive={handleBunttonActive("users")}
+                    onClick={() => routes.users()}
+                  >
+                    {isAdmin(user?.type) ? "Usuários": "Alunos"}
+                  </ButtonHeader>
+
+                  <ButtonHeader
+                    isActive={handleBunttonActive("map")}
+                    onClick={() => routes.map()}
+                  >
+                    Mapas
+                  </ButtonHeader>
+                </>
+              }
+              
+              {/* All users */}
+              <ButtonHeader
+                isActive={handleBunttonActive("my-groups")}
+                onClick={() => routes.myGroups()}
+              >
+                Meus grupos
+              </ButtonHeader>
+
+            </ButtonSection>
+            <ButtonHeader
+              isActive={false}
+              style={{ marginTop: "auto", gap: 10 }}
+              onClick={() => routes.logout()}
+            >
+              <LogOut size={20} /> Logout
+            </ButtonHeader>
+          </Drawer>
+          <button onClick={() => setOpen(true)}>
+            {" "}
+            <Menu size={25} />
+          </button>
+
+          <HeaderName>
+            <ButtonHeader isActive={false} onClick={() => routes.home()}>
+              {title}
+            </ButtonHeader>
+          </HeaderName>
+          <WrapperButton></WrapperButton>
+        </HeaderBox>
+      }
+    </>
   );
 }

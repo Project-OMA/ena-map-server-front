@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import Button from "../../common/components/Button";
-import InputText from "../../common/components/InputText";
+import Button from "../../../common/components/Button";
+import InputText from "../../../common/components/InputText";
 import {
   ErrorText,
   FormSection,
@@ -8,9 +8,9 @@ import {
   WrapperLogin,
   WrapperLoginCard,
 } from "./style";
-import { authGuard } from "../../guard/auth/components/AuthGuard";
-import { useRoutes } from "../../hooks/useRoutes";
-import { useUser } from "../../hooks/useUser";
+import { authGuard } from "../../../guard/auth/components/AuthGuard";
+import { useRoutes } from "../../../hooks/useRoutes";
+import { useUser } from "../../../hooks/useUser";
 
 export default function Login() {
   const [email, setEmail] = useState("");
