@@ -56,10 +56,19 @@ export function useUser() {
     []
   );
 
+  const handleCheckAuth = async () => {
+    try {
+      await serverMapService.checkUser();
+    } catch (error) {
+      routes.logout();
+    }
+  };
+
   return {
     user,
     setUser,
     handleLogin,
+    handleCheckAuth,
     loading,
   };
 }

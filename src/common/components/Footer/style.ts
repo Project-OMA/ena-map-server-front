@@ -8,6 +8,8 @@ export const WrapperFooter = styled.div`
   overflow: hidden;
   display: flex;
   align-items: center;
+  position: absolute;
+  bottom: 0;
 `;
 
 export const FooterText = styled.div`

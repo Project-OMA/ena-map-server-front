@@ -59,10 +59,10 @@ export const ButtonBox = styled.div`
 `;
 
 export const WrapperApplication = styled.div`
-  width: 100vw;
-  height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
+  min-height: 100vh;
 `;
 
 export const ButtonRadius = styled.button`
@@ -97,4 +97,11 @@ export const ErrorText = styled.p`
   font-size: 14px;
   font-weight: 400;
   color: #d32f2f;
+`;
+
+export const WrapperPage = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0px 0 30px;
 `;

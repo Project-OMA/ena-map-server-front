@@ -19,6 +19,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import debounce from "lodash/debounce";
 import Header from "../../../common/components/Header/Header";
 import { useRoutes } from "../../../hooks/useRoutes";
+import { WrapperPage } from "../../../common/styled/main.styled";
 
 export default function Admin_Groups() {
   const { routes } = useRoutes();
@@ -117,9 +118,9 @@ export default function Admin_Groups() {
               >
                 Editar
               </Button>
-              <Button variant="contained" onClick={() => {}}>
+              {/* <Button variant="contained" onClick={() => {}}>
                 Excluir
-              </Button>
+              </Button> */}
             </TableCell>
           </TableRow>
         );
@@ -134,56 +135,72 @@ export default function Admin_Groups() {
   return (
     <>
       <Header title="Grupos" />
-      <HeaderGroup>
-        <button onClick={() => setOpenFormModal(true)}>Cadastrar grupo</button>
-      </HeaderGroup>
+      <WrapperPage>
+        <HeaderGroup>
+          <button onClick={() => setOpenFormModal(true)}>
+            Cadastrar grupo
+          </button>
+        </HeaderGroup>
 
-      <GroupFormModal
-        open={openFormModal}
-        closeModal={closeFormModal}
-        groupUpdateId={groupUpdateId}
-      />
-      <Paper sx={{ width: "100%", height: "100%", marginY: 5 }}>
-        <TextField
-          id="search"
-          type="search"
-          label="Pesquisar"
-          value={search}
-          onChange={handleChangeSearch}
-          sx={{ width: "100%" }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
+        <GroupFormModal
+          open={openFormModal}
+          closeModal={closeFormModal}
+          groupUpdateId={groupUpdateId}
+        />
+        <Paper
+          sx={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "10px 0",
           }}
-        />
-        <TableContainer component={Paper} sx={{ marginTop: 2 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Id</TableCell>
-                <TableCell>Nome</TableCell>
-                <TableCell>Id do Proprietário</TableCell>
-                <TableCell>Criado em</TableCell>
-                <TableCell>Atualizado em</TableCell>
-                <TableCell>Ações</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>{renderGroupsCards()}</TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 15]}
-          component="div"
-          count={count}
-          rowsPerPage={limit}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeLimit}
-        />
-      </Paper>
+        >
+          <TextField
+            id="search"
+            type="search"
+            label="Pesquisar"
+            value={search}
+            onChange={handleChangeSearch}
+            sx={{ width: "95%" }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <TableContainer component={Paper} sx={{ marginTop: 2 }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell style={{ width: "14%" }}>Id</TableCell>
+                  <TableCell style={{ width: "14%" }}>Nome</TableCell>
+                  <TableCell style={{ width: "14%" }}>
+                    Id do Proprietário
+                  </TableCell>
+                  <TableCell style={{ width: "14%" }}>Criado em</TableCell>
+                  <TableCell style={{ width: "14%" }}>Atualizado em</TableCell>
+                  <TableCell style={{ width: "14%" }}>Ações</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>{renderGroupsCards()}</TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            style={{ marginTop: "auto", marginLeft: "auto" }}
+            rowsPerPageOptions={[10, 15]}
+            component="div"
+            count={count}
+            rowsPerPage={limit}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeLimit}
+          />
+        </Paper>
+      </WrapperPage>
     </>
   );
 }

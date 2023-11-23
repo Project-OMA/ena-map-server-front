@@ -13,16 +13,16 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import convertUserType from "../../../utils/convertUserType";
 import Button from "@mui/material/Button";
-import TablePagination from '@mui/material/TablePagination';
-import TextField from '@mui/material/TextField';
-import SearchIcon from '@mui/icons-material/Search';
-import InputAdornment from '@mui/material/InputAdornment';
+import TablePagination from "@mui/material/TablePagination";
+import TextField from "@mui/material/TextField";
+import SearchIcon from "@mui/icons-material/Search";
+import InputAdornment from "@mui/material/InputAdornment";
 
-import debounce from 'lodash/debounce';
+import debounce from "lodash/debounce";
 import Header from "../../../common/components/Header/Header";
-import UserTypes from '../../../constants/UserTypes';
+import { WrapperPage } from "../../../common/styled/main.styled";
 
-export default function Teacher_Users() {
+export default function Admin_Users() {
   const [openCsvModal, setOpenCsvModal] = useState<boolean>(false);
   const [openFormModal, setOpenFormModal] = useState<boolean>(false);
   const [userUpdateId, setUserUpdateId] = useState<number | null>(null);
@@ -31,22 +31,29 @@ export default function Teacher_Users() {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(10);
   const [count, setCount] = useState<number>(0);
-  
+
   const [users, setUsers] = useState([]);
 
-  const loadUsers = useCallback(async (search: string, limit: number, page: number) => {
-    if (!openFormModal && !openCsvModal) {
-      try {
-        const pagedUsers = (await userService.findAllPaged(search, limit, page + 1, [UserTypes.STUDENT]));
-        setUsers(pagedUsers.data);
-        setLimit(pagedUsers.limit);
-        setPage(pagedUsers.page - 1);
-        setCount(pagedUsers.count);
-      } catch (error) {
-        console.error(error);
+  const loadUsers = useCallback(
+    async (search: string, limit: number, page: number) => {
+      if (!openFormModal && !openCsvModal) {
+        try {
+          const pagedUsers = await userService.findAllPaged(
+            search,
+            limit,
+            page + 1
+          );
+          setUsers(pagedUsers.data);
+          setLimit(pagedUsers.limit);
+          setPage(pagedUsers.page - 1);
+          setCount(pagedUsers.count);
+        } catch (error) {
+          console.error(error);
+        }
       }
-    }
-  }, [openFormModal, openCsvModal]);
+    },
+    [openFormModal, openCsvModal]
+  );
 
   useEffect(() => {
     loadUsers(search, limit, page);
@@ -90,18 +97,25 @@ export default function Teacher_Users() {
       return users.map((user: any) => {
         return (
           <TableRow key={user.id}>
+            <TableCell component="th" scope="row">
+              {user.id}
+            </TableCell>
             <TableCell>{user.name}</TableCell>
-            <TableCell component="th" scope="row">{user.email}</TableCell>
+            <TableCell>{user.email}</TableCell>
             <TableCell>{convertUserType(user.type)}</TableCell>
             <TableCell>{new Date(user.created_at).toLocaleString()}</TableCell>
             <TableCell>{new Date(user.updated_at).toLocaleString()}</TableCell>
             <TableCell>
               <Button
+                sx={{ marginRight: 2 }}
                 variant="contained"
                 onClick={() => openEditModal(user.id)}
               >
                 Editar
               </Button>
+              {/* <Button variant="contained" onClick={() => {}}>
+                Excluir
+              </Button> */}
             </TableCell>
           </TableRow>
         );
@@ -112,58 +126,79 @@ export default function Teacher_Users() {
 
   return (
     <>
-      <Header title="Alunos" />
-      <HeaderUsers>
-        <button onClick={() => setOpenCsvModal(true)}>Cadastrar por CSV</button>
-        <button onClick={() => setOpenFormModal(true)}>
-          Cadastrar por Formulário
-        </button>
-      </HeaderUsers>
+      <Header title="Usuários" />
+      <WrapperPage>
+        <HeaderUsers>
+          <button onClick={() => setOpenCsvModal(true)}>
+            Cadastrar por CSV
+          </button>
+          <button onClick={() => setOpenFormModal(true)}>
+            Cadastrar por Formulário
+          </button>
+        </HeaderUsers>
 
-      <UserFileModal open={openCsvModal} closeModal={closeCsvModal} />
+        <UserFileModal open={openCsvModal} closeModal={closeCsvModal} />
 
-      <UserFormModal
-        open={openFormModal}
-        closeModal={closeFormModal}
-        userUpdateId={userUpdateId}
-      />
-      <Paper sx={{ width: '100%', height: '100%', marginY: 5}}>
-        <TextField
-          id="search"
-          type="search"
-          label="Pesquisar"
-          value={search}
-          onChange={handleChangeSearch}
-          sx={{ width: "100%"}}
-          InputProps={{
-            startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>,
+        <UserFormModal
+          open={openFormModal}
+          closeModal={closeFormModal}
+          userUpdateId={userUpdateId}
+        />
+        <Paper
+          sx={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "10px 0",
           }}
-        />
-        <TableContainer sx={{ marginTop: 2}}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Nome</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Tipo</TableCell>
-                <TableCell>Criado em</TableCell>
-                <TableCell>Atualizado em</TableCell>
-                <TableCell>Ações</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>{renderUsersCards()}</TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 15]}
-          component="div"
-          count={count}
-          rowsPerPage={limit}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeLimit}
-        />
-      </Paper>
+        >
+          <TextField
+            id="search"
+            type="search"
+            label="Pesquisar"
+            value={search}
+            onChange={handleChangeSearch}
+            sx={{ width: "95%" }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <TableContainer
+            sx={{ marginTop: 2, display: "flex", justifyContent: "center" }}
+          >
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  <TableCell style={{ width: "14%" }}>Id</TableCell>
+                  <TableCell style={{ width: "14%" }}>Nome</TableCell>
+                  <TableCell style={{ width: "14%" }}>Email</TableCell>
+                  <TableCell style={{ width: "14%" }}>Tipo</TableCell>
+                  <TableCell style={{ width: "14%" }}>Criado em</TableCell>
+                  <TableCell style={{ width: "14%" }}>Atualizado em</TableCell>
+                  <TableCell style={{ width: "14%" }}>Ações</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>{renderUsersCards()}</TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            style={{ marginTop: "auto", marginLeft: "auto" }}
+            rowsPerPageOptions={[10, 15]}
+            component="div"
+            count={count}
+            rowsPerPage={limit}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeLimit}
+          />
+        </Paper>
+      </WrapperPage>
     </>
   );
 }

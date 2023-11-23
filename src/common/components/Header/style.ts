@@ -42,6 +42,19 @@ export const ButtonHeader = styled.button<ButtonHeaderI>`
   }
 `;
 
+export const HeaderTitle = styled.h1<ButtonHeaderI>`
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  height: 3rem;
+  font-size: 1.2rem;
+  background-color: ${({ isActive }) => (isActive ? "#c2c2c2" : "transparent")};
+  padding: 2rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const WrapperButton = styled.div`
   display: flex;
   flex-direction: row;

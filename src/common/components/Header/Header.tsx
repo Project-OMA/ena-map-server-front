@@ -1,10 +1,11 @@
 import { useRoutes } from "../../../hooks/useRoutes";
 import { HeaderBox, HeaderName } from "../../styled/main.styled";
 import {
-  ButtonHeader,
+  HeaderTitle,
   ButtonSection,
   UserSection,
   WrapperButton,
+  ButtonHeader,
 } from "./style";
 import { Drawer } from "@mui/material";
 import { useCallback, useState } from "react";
@@ -12,8 +13,8 @@ import { UserCircle } from "@styled-icons/heroicons-solid/";
 import { useUser } from "../../../hooks/useUser";
 import { LogOut } from "@styled-icons/boxicons-regular";
 import { Menu } from "@styled-icons/boxicons-regular";
-import convertUserType from '../../../utils/convertUserType';
-import { isAdmin, isTeacher } from '../../../utils/verifyTypeFromUser';
+import convertUserType from "../../../utils/convertUserType";
+import { isAdmin, isTeacher } from "../../../utils/verifyTypeFromUser";
 interface HeaderI {
   title: string;
 }
@@ -44,23 +45,20 @@ export default function Header({ title }: HeaderI) {
 
   return (
     <>
-      {
-        user &&
+      {user && (
         <HeaderBox>
           <Drawer anchor="left" open={open} onClose={handleClose}>
             <UserSection>
               <UserCircle size={50} />
               {user?.name}
 
-              <div style={{marginTop: 5}} >
-              <strong>{user ? convertUserType(user.type) : ""}</strong>
+              <div style={{ marginTop: 5 }}>
+                <strong>{user ? convertUserType(user.type) : ""}</strong>
               </div>
             </UserSection>
             <ButtonSection>
               {/* ADMIN - TEACHER */}
-              { (
-                  isAdmin(user?.type) || isTeacher(user?.type)
-                ) &&
+              {(isAdmin(user?.type) || isTeacher(user?.type)) && (
                 <>
                   <ButtonHeader
                     isActive={handleBunttonActive("groups")}
@@ -73,7 +71,7 @@ export default function Header({ title }: HeaderI) {
                     isActive={handleBunttonActive("users")}
                     onClick={() => routes.users()}
                   >
-                    {isAdmin(user?.type) ? "Usuários": "Alunos"}
+                    {isAdmin(user?.type) ? "Usuários" : "Alunos"}
                   </ButtonHeader>
 
                   <ButtonHeader
@@ -83,8 +81,8 @@ export default function Header({ title }: HeaderI) {
                     Mapas
                   </ButtonHeader>
                 </>
-              }
-              
+              )}
+
               {/* All users */}
               <ButtonHeader
                 isActive={handleBunttonActive("my-groups")}
@@ -92,7 +90,6 @@ export default function Header({ title }: HeaderI) {
               >
                 Meus grupos
               </ButtonHeader>
-
             </ButtonSection>
             <ButtonHeader
               isActive={false}
@@ -108,13 +105,13 @@ export default function Header({ title }: HeaderI) {
           </button>
 
           <HeaderName>
-            <ButtonHeader isActive={false} onClick={() => routes.home()}>
+            <HeaderTitle isActive={false} onClick={() => routes.home()}>
               {title}
-            </ButtonHeader>
+            </HeaderTitle>
           </HeaderName>
           <WrapperButton></WrapperButton>
         </HeaderBox>
-      }
+      )}
     </>
   );
 }

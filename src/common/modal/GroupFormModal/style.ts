@@ -6,6 +6,7 @@ export const WrapperModalRegister = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 `;
 
 export const HeaderModal = styled.div`
@@ -80,8 +81,6 @@ export const MapWrapper = styled.div`
 `;
 
 export const MapCard = styled.div`
-  width: 40%;
-  height: 9rem;
   display: flex;
   justify-content: space-between;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.03);
@@ -90,6 +89,9 @@ export const MapCard = styled.div`
   z-index: 10;
   border: 1px solid rgba(0, 0, 0, 0.1);
   padding-right: 1.5rem;
+  background-color: #fff;
+  height: 5rem;
+  /* top: auto !important; */
 `;
 
 export const ImgCard = styled.img`
@@ -104,9 +106,10 @@ export const WrapperDnD = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 1rem 5rem;
+  padding: 1rem 2rem;
   gap: 3rem;
-  height: 100%;
+  height: 25rem;
+  overflow-y: scroll;
   h1 {
     font-size: 1.5rem;
   }

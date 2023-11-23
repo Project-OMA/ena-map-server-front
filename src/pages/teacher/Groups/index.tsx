@@ -11,18 +11,17 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
-import TablePagination from '@mui/material/TablePagination';
-import TextField from '@mui/material/TextField';
-import SearchIcon from '@mui/icons-material/Search';
-import InputAdornment from '@mui/material/InputAdornment';
+import TablePagination from "@mui/material/TablePagination";
+import TextField from "@mui/material/TextField";
+import SearchIcon from "@mui/icons-material/Search";
+import InputAdornment from "@mui/material/InputAdornment";
 
-import debounce from 'lodash/debounce';
+import debounce from "lodash/debounce";
 import Header from "../../../common/components/Header/Header";
-import { useRoutes } from '../../../hooks/useRoutes';
-import { useUser } from '../../../hooks/useUser';
+import { useRoutes } from "../../../hooks/useRoutes";
+import { WrapperPage } from "../../../common/styled/main.styled";
 
-export default function Teacher_Groups() {
-  const { user } = useUser();
+export default function Admin_Groups() {
   const { routes } = useRoutes();
   const [openFormModal, setOpenFormModal] = useState<boolean>(false);
   const [groupUpdateId, setGroupUpdateId] = useState<number | null>(null);
@@ -45,22 +44,29 @@ export default function Teacher_Groups() {
     setOpenFormModal(true);
   };
 
-  const loadGroups = useCallback(async (search: string, limit: number, page: number) => {
-    if (!openFormModal) {
-      try {
-        setLoading(true);
-        const pagedGroups = (await groupService.findAllPaged(search, limit, page + 1));
-        setGroups(pagedGroups.data);
-        setLimit(pagedGroups.limit);
-        setPage(pagedGroups.page - 1);
-        setCount(pagedGroups.count);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
+  const loadGroups = useCallback(
+    async (search: string, limit: number, page: number) => {
+      if (!openFormModal) {
+        try {
+          setLoading(true);
+          const pagedGroups = await groupService.findAllPaged(
+            search,
+            limit,
+            page + 1
+          );
+          setGroups(pagedGroups.data);
+          setLimit(pagedGroups.limit);
+          setPage(pagedGroups.page - 1);
+          setCount(pagedGroups.count);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false);
+        }
       }
-    }
-  }, [openFormModal]);
+    },
+    [openFormModal]
+  );
 
   const debouncedLoadUsers = debounce(loadGroups, 1500);
 
@@ -99,29 +105,22 @@ export default function Teacher_Groups() {
             <TableCell>{new Date(group.updated_at).toLocaleString()}</TableCell>
             <TableCell>
               <Button
-                sx={{marginRight: 2}}
+                sx={{ marginRight: 2 }}
                 variant="contained"
                 onClick={() => routes.groupById(group.id)}
               >
                 Ver
               </Button>
               <Button
-                sx={{marginRight: 2}}
+                sx={{ marginRight: 2 }}
                 variant="contained"
                 onClick={() => openEditModal(group.id)}
               >
                 Editar
               </Button>
-              {
-                group.id_owner === user.id
-                &&
-                <Button
-                  variant="contained"
-                  onClick={() => {}}
-                >
-                  Excluir
-                </Button>
-              }
+              {/* <Button variant="contained" onClick={() => {}}>
+                Excluir
+              </Button> */}
             </TableCell>
           </TableRow>
         );
@@ -136,52 +135,71 @@ export default function Teacher_Groups() {
   return (
     <>
       <Header title="Grupos" />
-      <HeaderGroup>
-        <button onClick={() => setOpenFormModal(true)}>Cadastrar grupo</button>
-      </HeaderGroup>
+      <WrapperPage>
+        <HeaderGroup>
+          <button onClick={() => setOpenFormModal(true)}>
+            Cadastrar grupo
+          </button>
+        </HeaderGroup>
 
-      <GroupFormModal
-        open={openFormModal}
-        closeModal={closeFormModal}
-        groupUpdateId={groupUpdateId}
-      />
-      <Paper sx={{ width: '100%', height: '100%', marginY: 5}}>
-        <TextField
-          id="search"
-          type="search"
-          label="Pesquisar"
-          value={search}
-          onChange={handleChangeSearch}
-          sx={{ width: "100%"}}
-          InputProps={{
-            startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>,
+        <GroupFormModal
+          open={openFormModal}
+          closeModal={closeFormModal}
+          groupUpdateId={groupUpdateId}
+        />
+        <Paper
+          sx={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "10px 0",
           }}
-        />
-        <TableContainer component={Paper} sx={{ marginTop: 2}}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Id</TableCell>
-                <TableCell>Nome</TableCell>
-                <TableCell>Id do Proprietário</TableCell>
-                <TableCell>Criado em</TableCell>
-                <TableCell>Atualizado em</TableCell>
-                <TableCell>Ações</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>{renderGroupsCards()}</TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 15]}
-          component="div"
-          count={count}
-          rowsPerPage={limit}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeLimit}
-        />
-      </Paper>
+        >
+          <TextField
+            id="search"
+            type="search"
+            label="Pesquisar"
+            value={search}
+            onChange={handleChangeSearch}
+            sx={{ width: "95%" }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <TableContainer component={Paper} sx={{ marginTop: 2 }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell style={{ width: "14%" }}>Id</TableCell>
+                  <TableCell style={{ width: "14%" }}>Nome</TableCell>
+                  <TableCell style={{ width: "14%" }}>
+                    Id do Proprietário
+                  </TableCell>
+                  <TableCell style={{ width: "14%" }}>Criado em</TableCell>
+                  <TableCell style={{ width: "14%" }}>Atualizado em</TableCell>
+                  <TableCell style={{ width: "14%" }}>Ações</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>{renderGroupsCards()}</TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 15]}
+            component="div"
+            count={count}
+            rowsPerPage={limit}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeLimit}
+          />
+        </Paper>
+      </WrapperPage>
     </>
   );
 }

@@ -19,6 +19,16 @@ export class ServerMapService {
     }
   }
 
+  async checkUser() {
+    try {
+      const response = await this.serverMapService.get("/users/check-auth");
+      return response?.data;
+    } catch (error) {
+      console.error("Usuario não está autenticado.", error);
+      throw error;
+    }
+  }
+
   // Maps Entity
   async findAll() {
     try {
@@ -29,14 +39,16 @@ export class ServerMapService {
   }
 
   async findAllPaged(
-    search: string | undefined = undefined, 
-    limit: number | undefined = undefined, 
-    page: number | undefined  = undefined
+    search: string | undefined = undefined,
+    limit: number | undefined = undefined,
+    page: number | undefined = undefined
   ) {
     try {
-      return (await this.serverMapService.get(`/maps`,{ 
-        params: { search, limit, page } 
-      })).data;
+      return (
+        await this.serverMapService.get(`/maps`, {
+          params: { search, limit, page },
+        })
+      ).data;
     } catch (error) {
       throw error;
     }

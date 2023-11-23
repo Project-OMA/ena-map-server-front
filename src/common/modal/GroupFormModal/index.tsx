@@ -15,7 +15,7 @@ import {
 } from "./style";
 import Button from "../../components/Button";
 import { Close } from "@styled-icons/evil";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   groupService,
   serverMapService as mapService,
@@ -25,6 +25,8 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import AutoCompleteInput from "../../components/AutoCompleteInput";
 import { getBackgroundLink } from "../../../consts";
 import { useUser } from "../../../hooks/useUser";
+import ReactDOM from "react-dom/client";
+import { ImageNotSupported } from "@styled-icons/material";
 
 type IRegisterMapModal = {
   open: boolean;
@@ -79,6 +81,7 @@ export default function RegisterMapModal({
     complete: false,
   });
   const { user } = useUser();
+  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (Number.isInteger(groupUpdateId)) {
@@ -256,6 +259,7 @@ export default function RegisterMapModal({
                 <MapWrapper
                   {...provided.droppableProps}
                   ref={provided.innerRef}
+                  style={{ width: "100%", padding: "0 25px" }}
                 >
                   {mapsSelected.map(({ id, name, thumb_url }, index) => {
                     return (
@@ -265,17 +269,21 @@ export default function RegisterMapModal({
                         index={index}
                       >
                         {(provided: any, snapshot) => {
-                          // if (snapshot.isDragging) {
-                          //   provided.draggableProps.style.left = undefined;
-                          //   provided.draggableProps.style.top = undefined;
-                          //   provided.draggableProps.style.bottom = undefined;
-                          //   provided.draggableProps.style.right = undefined;
-                          // }
+                          const offset =
+                            modalRef.current?.getBoundingClientRect().top ?? 0;
+
                           return (
                             <MapCard
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
+                              style={{
+                                ...provided.draggableProps.style,
+                                left: "auto !important",
+                                top: snapshot.isDragging
+                                  ? provided.draggableProps.style?.top - offset
+                                  : "auto !important",
+                              }}
                             >
                               <ImgCard
                                 src={getBackgroundLink(thumb_url)}
@@ -283,6 +291,7 @@ export default function RegisterMapModal({
                                 crossOrigin="anonymous"
                                 loading="lazy"
                               />
+
                               <p>{name}</p>
                             </MapCard>
                           );
@@ -316,7 +325,7 @@ export default function RegisterMapModal({
       className="react-modal-action-group"
       onRequestClose={handleCloseModal}
     >
-      <WrapperModalRegister>
+      <WrapperModalRegister ref={modalRef}>
         <HeaderModal>
           <ModalTitle>
             {groupUpdateId ? "Edição" : "Cadastro"} de Grupo
