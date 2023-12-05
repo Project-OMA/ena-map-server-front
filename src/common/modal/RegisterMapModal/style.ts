@@ -68,3 +68,57 @@ export const LabelInput = styled.h1`
   font-size: 18px;
   font-weight: 400;
 `;
+
+export const DropContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  padding: 1rem 0;
+  /* /* transition: height 0.2s ease; */
+  background: #f2f2f2;
+`;
+
+export const DropButton = styled.button`
+  border: 2px solid transparent;
+  width: 150px;
+  height: 150px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 1rem;
+
+  :hover {
+    border: 2px solid rgba(0, 0, 0, 0.1);
+  }
+`;
+
+export const MapFileCard = styled.div`
+  display: flex;
+  align-items: center;
+  width: 80%;
+  height: 3rem;
+  padding: 0 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: #ffff;
+  justify-content: space-between;
+
+  font-size: 0.8rem;
+
+  button {
+    cursor: pointer;
+  }
+`;
+
+export const DropText = styled.p`
+  width: 200px;
+  margin-top: 10px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.5);
+`;

@@ -237,6 +237,7 @@ export default function RegisterMapModal({
           <WrapperInput>
             <LabelInput>Selecione os usuários do grupo:</LabelInput>
             <AutoCompleteInput
+              id="usersSelect"
               label="Usuários"
               options={users}
               changeFunction={(_: any, value: any) => handleSelectUsers(value)}

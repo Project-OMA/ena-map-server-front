@@ -73,4 +73,14 @@ export class ServerMapService {
       throw new Error("Error ao cadastrar o mapa.");
     }
   }
+
+  async updateMap(id: any, data: any) {
+    try {
+      const response = await this.serverMapService.put(`/maps/${id}`, data);
+      return response?.data?.content;
+    } catch (error) {
+      console.error("Error ao cadastrar o mapa.", error);
+      throw new Error("Error ao cadastrar o mapa.");
+    }
+  }
 }

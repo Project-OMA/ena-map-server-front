@@ -3,7 +3,6 @@ import RegisterMapModal from "../../../common/modal/RegisterMapModal";
 import { HeaderMapsPage, WrapperMaps } from "./style";
 import { serverMapService as mapService } from "../../../service/axiosServer";
 import { LoadingComponent } from "../../../common/styled/LoadingComponent";
-import { useUser } from "../../../hooks/useUser";
 import MapItem from "../../../common/components/CardItem";
 import TablePagination from "@mui/material/TablePagination";
 import TextField from "@mui/material/TextField";
@@ -15,11 +14,10 @@ import debounce from "lodash/debounce";
 import Header from "../../../common/components/Header/Header";
 import { WrapperPage } from "../../../common/styled/main.styled";
 
-export default function Teacher_Maps() {
+export default function Admin_Maps() {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [maps, setMaps] = useState([]);
-  const { user } = useUser();
-
+  const [mapSelected, setMapSelected] = useState(null);
   const [search, setSearch] = useState<string>("");
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(10);
@@ -49,6 +47,11 @@ export default function Teacher_Maps() {
     },
     [openModal]
   );
+
+  const handleSelectMap = (map: any) => {
+    setMapSelected(map);
+    setOpenModal(true);
+  };
 
   useEffect(() => {
     loadMaps(search, limit, page);
@@ -82,6 +85,7 @@ export default function Teacher_Maps() {
             id={map.id}
             title={map.name}
             imgBg={map?.thumb_url}
+            handleSelectMap={() => handleSelectMap(map)}
           />
         );
       });
@@ -126,6 +130,7 @@ export default function Teacher_Maps() {
               open={openModal}
               closeModal={closeModal}
               loadMaps={() => loadMaps(search, limit, page)}
+              mapSelected={mapSelected}
             />
             {renderMapCards()}
           </WrapperMaps>

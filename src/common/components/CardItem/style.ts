@@ -28,9 +28,21 @@ export const CardHeader = styled.div`
   justify-content: space-between;
 `;
 
+export const WrapperButtons = styled.div`
+  width: 3rem;
+  display: flex;
+  justify-content: space-between;
+  background-color: transparent;
+`;
+
 export const DownloadButton = styled.a`
-  width: 20px;
   height: 20px;
+`;
+
+export const Button = styled.button`
+  height: 20px;
+  background-color: transparent;
+  cursor: pointer;
 `;
 
 export const CardBody = styled.div`
