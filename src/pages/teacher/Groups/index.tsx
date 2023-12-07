@@ -104,13 +104,13 @@ export default function Admin_Groups() {
             <TableCell>{new Date(group.created_at).toLocaleString()}</TableCell>
             <TableCell>{new Date(group.updated_at).toLocaleString()}</TableCell>
             <TableCell>
-              <Button
+              {/* <Button
                 sx={{ marginRight: 2 }}
                 variant="contained"
                 onClick={() => routes.groupById(group.id)}
               >
                 Ver
-              </Button>
+              </Button> */}
               <Button
                 sx={{ marginRight: 2 }}
                 variant="contained"

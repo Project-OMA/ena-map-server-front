@@ -1,25 +1,25 @@
-import { Navigate } from 'react-router-dom';
-import UserTypes from '../constants/UserTypes';
+import { Navigate } from "react-router-dom";
+import UserTypes from "../constants/UserTypes";
 
-import Login from '../pages/shared/Login/Login';
+import Login from "../pages/shared/Login/Login";
 import Logout from "../guard/auth/components/Logout";
-import Error404 from '../pages/shared/Error404';
+import Error404 from "../pages/shared/Error404";
 
-import Teacher_Home from '../pages/teacher/Home/Home';
-import Teacher_Maps from '../pages/teacher/Maps';
-import Teacher_Users from '../pages/teacher/Users';
-import Teacher_Groups from '../pages/teacher/Groups';
-import Teacher_MyGroups from '../pages/teacher/MyGroups';
+import Teacher_Home from "../pages/teacher/Home/Home";
+import Teacher_Maps from "../pages/teacher/Maps";
+import Teacher_Users from "../pages/teacher/Users";
+import Teacher_Groups from "../pages/teacher/Groups";
+import Teacher_MyGroups from "../pages/teacher/MyGroups";
 
-import Student_MyGroups from '../pages/student/MyGroups';
-import Student_Home from '../pages/student/Home/Home';
+import Student_MyGroups from "../pages/student/MyGroups";
+import Student_Home from "../pages/student/Home/Home";
 
-import Admin_MyGroups from '../pages/admin/MyGroups';
-import Admin_Home from '../pages/admin/Home/Home';
-import Admin_Maps from '../pages/admin/Maps';
-import Admin_Users from '../pages/admin/Users';
-import Admin_Groups from '../pages/admin/Groups';
-import Group from '../pages/shared/Group';
+import Admin_MyGroups from "../pages/admin/MyGroups";
+import Admin_Home from "../pages/admin/Home/Home";
+import Admin_Maps from "../pages/admin/Maps";
+import Admin_Users from "../pages/admin/Users";
+import Admin_Groups from "../pages/admin/Groups";
+import Group from "../pages/shared/Group";
 
 export const ROUTES_PATH = {
   login: { route: "/mapserver/login", use: "/mapserver/login" },
@@ -29,7 +29,7 @@ export const ROUTES_PATH = {
   groupById: { route: "/mapserver/groups/:id", use: "/mapserver/groups" },
   myGroups: { route: "/mapserver/my-groups", use: "/mapserver/my-groups" },
   map: { route: "/mapserver/map", use: "/mapserver/map" },
-  users: { route: "/mapserver/users", use: "/mapserver/users" }
+  users: { route: "/mapserver/users", use: "/mapserver/users" },
 };
 export const ROUTES = [
   {
@@ -40,7 +40,7 @@ export const ROUTES = [
       [UserTypes.TEACHER]: () => <Navigate to={ROUTES_PATH.home.route} />,
       [UserTypes.STUDENT]: () => <Navigate to={ROUTES_PATH.home.route} />,
       [UserTypes.ANY]: () => <Login />,
-    } 
+    },
   },
   {
     path: ROUTES_PATH.logout.route,
@@ -106,8 +106,8 @@ export const ROUTES = [
     path: ROUTES_PATH.myGroups.route,
     isPublic: false,
     component: {
-      [UserTypes.ADMIN]: () => <Admin_MyGroups />,
-      [UserTypes.TEACHER]: () => <Teacher_MyGroups />,
+      // [UserTypes.ADMIN]: () => <Admin_MyGroups />,
+      // [UserTypes.TEACHER]: () => <Teacher_MyGroups />,
       [UserTypes.STUDENT]: () => <Student_MyGroups />,
       [UserTypes.ANY]: () => <Error404 />,
     },

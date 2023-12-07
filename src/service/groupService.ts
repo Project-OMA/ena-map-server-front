@@ -44,7 +44,7 @@ export class GroupService {
         throw new Error("Erro! Não foi possível listar os grupos");
       }
       return (
-        await this.groupService.get(`/groups/users/${userId}/groups`, {
+        await this.groupService.get(`/groups/${userId}/by-user`, {
           params: { search, limit, page },
         })
       ).data;
@@ -57,6 +57,22 @@ export class GroupService {
   async findById(id: number) {
     try {
       return await this.groupService.get(`/groups/${id}`);
+    } catch (error) {
+      console.error("Erro! Não foi possível encontrar o grupo. " + error);
+      throw error;
+    }
+  }
+
+  async getMapsByGroupAndUser(
+    idGroup: number,
+    idUser: number,
+    limit: number,
+    offset: number
+  ) {
+    try {
+      return await this.groupService.get(
+        `/groups/${idGroup}/user/${idUser}?limit=${limit}&offset=${offset}`
+      );
     } catch (error) {
       console.error("Erro! Não foi possível encontrar o grupo. " + error);
       throw error;

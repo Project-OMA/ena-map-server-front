@@ -1,89 +1,110 @@
 import Header from "../../../common/components/Header/Header";
-// import {
-//   ContainerDiv,
-//   H1Title,
-//   H2Title,
-//   PageContent,
-// } from "../../../common/styled/main.styled";
+import {
+  ContainerDiv,
+  H1Title,
+  H2Title,
+  PageContent,
+} from "../../../common/styled/main.styled";
 import { GroupCreatedBy, GroupHeader } from "./style";
 import MapList from "./MapList";
+import { groupService } from "../../../service/axiosServer";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useUser } from "../../../hooks/useUser";
 
 const Group = () => {
-  const group = {
-    name: "Exploração do 1 Andar",
-    owner: {
-      name: "Maxwell Ebert",
-    },
-    created_at: "2023-10-15T10:20:00.000Z",
+  const [groupSelected, setGroupSelected] = useState<any>(null);
+  const [maps, setMaps] = useState<any>([]);
+  const [page, setPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const { user } = useUser();
+  const { id } = useParams();
+  const LIMIT_MAPS_PAGE = 9;
+
+  useEffect(() => {
+    handleLoadGroup();
+  }, []);
+
+  const handleLoadGroup = async () => {
+    try {
+      const group = await groupService.findById(parseInt(id as string));
+      setGroupSelected(group.data);
+
+      const maps = await groupService.getMapsByGroupAndUser(
+        parseInt(id as string),
+        user.id,
+        LIMIT_MAPS_PAGE,
+        0
+      );
+
+      setMaps(maps.data.maps);
+
+      if (maps.data.maps.length >= maps.data.count) {
+        setHasMore(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const members = [
-    "Annie Price",
-    "Ted Kovacek",
-    "Brandon Jakubowski",
-    "Annie Price",
-    "Ted Kovacek",
-    "Brandon Jakubowski",
-    "Annie Price",
-    "Ted Kovacek",
-    "Brandon Jakubowski",
-    "Annie Price",
-    "Ted Kovacek",
-    "Brandon Jakubowski",
-  ];
+  const handleLoadNextMaps = async () => {
+    try {
+      setLoading(true);
 
-  const maps = [
-    {
-      id: 1,
-      id_map: 111,
-      name: "Pavilhão 1",
-      thumb_url: "",
-    },
-    {
-      id: 2,
-      id_map: 222,
-      name: "Pavilhão 2",
-      thumb_url: "",
-    },
-    {
-      id: 3,
-      id_map: 333,
-      name: "Bloco H",
-      thumb_url: "",
-    },
-    {
-      id: 4,
-      id_map: 444,
-      name: "Bloco E",
-      thumb_url: "",
-    },
-  ];
+      let newPage: number = page + 1;
+      let newOffset = page * LIMIT_MAPS_PAGE;
+      let newMaps = [...maps];
+
+      const newMapsResponse = await groupService.getMapsByGroupAndUser(
+        parseInt(id as string),
+        user.id,
+        LIMIT_MAPS_PAGE,
+        newOffset
+      );
+
+      if (newMapsResponse.data.maps.length > 0) {
+        newMaps = [...newMaps, ...newMapsResponse.data.maps];
+        setMaps(newMaps);
+      }
+      setPage(newPage);
+
+      if (newMaps.length >= newMapsResponse.data.count) {
+        setHasMore(false);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
       <Header title="Grupo" />
-      <main>
-        {/* <ContainerDiv>
-          <GroupHeader>
-            <H1Title>Grupo: {group.name}</H1Title>
-            <GroupCreatedBy>
-              <strong>Criado em:</strong>{" "}
-              {new Date(group.created_at).toLocaleDateString()}
-            </GroupCreatedBy>
-            <GroupCreatedBy>
-              <strong>Líder:</strong> {group.owner.name}
-            </GroupCreatedBy>
-          </GroupHeader>
-
-          <PageContent>
-            <H2Title>Membros</H2Title>
-            <p>{members.toString()}</p>
-
-            <H2Title>Mapas</H2Title>
-            <MapList maps={maps} />
-          </PageContent>
-        </ContainerDiv> */}
-      </main>
+      {groupSelected && (
+        <main>
+          <ContainerDiv>
+            <GroupHeader>
+              <H1Title>Grupo: {groupSelected.name}</H1Title>
+              <GroupCreatedBy>
+                <strong>Criado em:</strong>{" "}
+                {new Date(groupSelected.created_at).toLocaleDateString()}
+              </GroupCreatedBy>
+            </GroupHeader>
+            <PageContent>
+              <H2Title>Mapas</H2Title>
+              <MapList
+                maps={maps}
+                nextPage={handleLoadNextMaps}
+                hasMore={hasMore}
+                loading={loading}
+              />
+            </PageContent>
+          </ContainerDiv>
+        </main>
+      )}
     </>
   );
 };

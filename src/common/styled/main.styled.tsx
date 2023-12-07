@@ -105,3 +105,26 @@ export const WrapperPage = styled.div`
   height: 100%;
   padding: 0px 0 30px;
 `;
+
+export const H1Title = styled.h1`
+  font-size: 30px;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.1);
+`;
+
+export const H2Title = styled.h1`
+  font-size: 20px;
+  margin-bottom: 22px;
+  margin-top: 40px;
+`;
+
+export const ContainerDiv = styled.div`
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 1300px;
+`;
+
+export const PageContent = styled.div`
+  margin: 25px 0;
+`;

@@ -126,18 +126,24 @@ export default function Student_MyGroups() {
   return (
     <>
       <Header title="Grupos" />
-      <HeaderGroup>
-        <button onClick={() => setOpenFormModal(true)}>Cadastrar grupo</button>
-      </HeaderGroup>
 
-      <Paper sx={{ width: "100%", height: "100%", marginY: 5 }}>
+      <Paper
+        sx={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "10px 0",
+        }}
+      >
         <TextField
           id="search"
           type="search"
           label="Pesquisar"
           value={search}
           onChange={handleChangeSearch}
-          sx={{ width: "100%" }}
+          sx={{ width: "95%" }}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -150,11 +156,13 @@ export default function Student_MyGroups() {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Nome</TableCell>
-                <TableCell>Id do Proprietário</TableCell>
-                <TableCell>Criado em</TableCell>
-                <TableCell>Atualizado em</TableCell>
-                <TableCell>Ações</TableCell>
+                <TableCell style={{ width: "14%" }}>Nome</TableCell>
+                <TableCell style={{ width: "14%" }}>
+                  Id do Proprietário
+                </TableCell>
+                <TableCell style={{ width: "14%" }}>Criado em</TableCell>
+                <TableCell style={{ width: "14%" }}>Atualizado em</TableCell>
+                <TableCell style={{ width: "14%" }}>Ações</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>{renderGroupsCards()}</TableBody>

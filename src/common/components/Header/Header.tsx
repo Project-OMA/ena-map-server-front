@@ -14,7 +14,11 @@ import { useUser } from "../../../hooks/useUser";
 import { LogOut } from "@styled-icons/boxicons-regular";
 import { Menu } from "@styled-icons/boxicons-regular";
 import convertUserType from "../../../utils/convertUserType";
-import { isAdmin, isTeacher } from "../../../utils/verifyTypeFromUser";
+import {
+  isAdmin,
+  isStudent,
+  isTeacher,
+} from "../../../utils/verifyTypeFromUser";
 interface HeaderI {
   title: string;
 }
@@ -83,13 +87,14 @@ export default function Header({ title }: HeaderI) {
                 </>
               )}
 
-              {/* All users */}
-              <ButtonHeader
-                isActive={handleBunttonActive("my-groups")}
-                onClick={() => routes.myGroups()}
-              >
-                Meus grupos
-              </ButtonHeader>
+              {isStudent(user.type) && (
+                <ButtonHeader
+                  isActive={handleBunttonActive("my-groups")}
+                  onClick={() => routes.myGroups()}
+                >
+                  Meus grupos
+                </ButtonHeader>
+              )}
             </ButtonSection>
             <ButtonHeader
               isActive={false}

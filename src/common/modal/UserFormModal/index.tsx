@@ -137,8 +137,8 @@ export default function RegisterMapModal({
               sx={{ width: "100%" }}
               onChange={handleChangeType}
             >
-              <MenuItem value={1}>Professor</MenuItem>
-              <MenuItem value={2}>Aluno</MenuItem>
+              <MenuItem value={2}>Professor</MenuItem>
+              <MenuItem value={3}>Aluno</MenuItem>
             </Select>
           </WrapperInput>
           <WrapperInput>
