@@ -2,6 +2,7 @@ import Modal from "react-modal";
 import InputText from "../../components/InputText";
 import {
   BodyModalWrapper,
+  DeleteButton,
   DropButton,
   DropContainer,
   DropText,
@@ -15,17 +16,20 @@ import {
 } from "./style";
 import Button from "../../components/Button";
 import { Close } from "@styled-icons/evil";
+import { Delete } from "@styled-icons/fluentui-system-regular";
 import { useEffect, useMemo, useState } from "react";
 import { enaConvertServices } from "../../../service/enaConvertService";
 import { serverMapService } from "../../../service/axiosServer";
 import Dropzone from "react-dropzone";
 import { useUser } from "../../../hooks/useUser";
+import { Tooltip } from "@mui/material";
 
 type IRegisterMapModal = {
   open: boolean;
   closeModal: (value: boolean) => void;
   loadMaps: () => void;
   mapSelected?: any;
+  setMapSelected: (value: any) => void;
 };
 
 export default function RegisterMapModal({
@@ -33,6 +37,7 @@ export default function RegisterMapModal({
   closeModal,
   loadMaps,
   mapSelected,
+  setMapSelected,
 }: IRegisterMapModal) {
   const { user } = useUser();
   const [name, setName] = useState("");
@@ -101,6 +106,17 @@ export default function RegisterMapModal({
     }
   };
 
+  const handleDeleteMap = async () => {
+    try {
+      if (mapSelected) {
+        await serverMapService.deleteMap(mapSelected.id);
+        handleCloseModal();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleCloseModal = () => {
     closeModal(false);
     setFileName("");
@@ -108,6 +124,7 @@ export default function RegisterMapModal({
     setName("");
     setOldName("");
     setNewFile(false);
+    setMapSelected(null);
   };
 
   const handleRemoveFile = () => {
@@ -136,6 +153,13 @@ export default function RegisterMapModal({
           </button>
         </HeaderModal>
         <BodyModalWrapper>
+          {mapSelected && (
+            <Tooltip title="Excluir o Mapa">
+              <DeleteButton onClick={() => handleDeleteMap()}>
+                <Delete size={25} color="#000" />
+              </DeleteButton>
+            </Tooltip>
+          )}
           <WrapperInput>
             <LabelInput>Nome:</LabelInput>
             <InputText

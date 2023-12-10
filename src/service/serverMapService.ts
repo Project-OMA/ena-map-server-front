@@ -80,7 +80,17 @@ export class ServerMapService {
       return response?.data?.content;
     } catch (error) {
       console.error("Error ao cadastrar o mapa.", error);
-      throw new Error("Error ao cadastrar o mapa.");
+      throw new Error("Error ao Atualizar o mapa.");
+    }
+  }
+
+  async deleteMap(id: any) {
+    try {
+      const response = await this.serverMapService.delete(`/maps/${id}`);
+      return response?.data?.content;
+    } catch (error) {
+      console.error("Error ao deletar o mapa.", error);
+      throw new Error("Error ao deletar o mapa.");
     }
   }
 }

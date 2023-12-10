@@ -36,6 +36,7 @@ export const BodyModalWrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   gap: 25px;
+  position: relative;
 `;
 
 export const FooterModalWrapper = styled.div`
@@ -67,4 +68,11 @@ export const LabelInput = styled.h1`
   margin-right: auto;
   font-size: 18px;
   font-weight: 400;
+`;
+
+export const DeleteButton = styled.button`
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 `;

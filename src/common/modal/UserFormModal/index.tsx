@@ -2,6 +2,7 @@ import Modal from "react-modal";
 import InputText from "../../components/InputText";
 import {
   BodyModalWrapper,
+  DeleteButton,
   FooterModalWrapper,
   HeaderModal,
   LabelInput,
@@ -15,6 +16,8 @@ import { useCallback, useEffect, useState } from "react";
 import { userService } from "../../../service/axiosServer";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import { Tooltip } from "@mui/material";
+import { Delete } from "@styled-icons/fluentui-system-regular";
 
 type IRegisterMapModal = {
   open: boolean;
@@ -92,6 +95,17 @@ export default function RegisterMapModal({
     setType(e.target.value);
   };
 
+  const handleDeleteUser = async () => {
+    try {
+      if (userUpdateId) {
+        await userService.deleteById(userUpdateId as number);
+        handleCloseModal();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Modal
       isOpen={open}
@@ -111,6 +125,13 @@ export default function RegisterMapModal({
           </button>
         </HeaderModal>
         <BodyModalWrapper>
+          {userUpdateId && (
+            <Tooltip title="Excluir o Usuário">
+              <DeleteButton onClick={() => handleDeleteUser()}>
+                <Delete size={25} color="#000" />
+              </DeleteButton>
+            </Tooltip>
+          )}
           <WrapperInput>
             <LabelInput>Nome:</LabelInput>
             <InputText

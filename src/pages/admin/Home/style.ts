@@ -11,22 +11,32 @@ export const WrapperPage = styled.div`
 
 export const ButtonWrapper = styled.div`
   display: flex;
-  width: 50%;
-  justify-content: center;
+  width: 80%;
+  justify-content: space-between;
   align-items: center;
-  gap: 20%;
+  flex-wrap: wrap;
+  padding: 1.5rem 0;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    width: 100%;
+  }
 `;
 
 export const ButtonSector = styled.div`
-  width: 40rem;
+  width: 25rem;
   background-color: #fefefefe;
   padding: 2rem 2rem;
-  border-radius: 8px;
+  border-radius: 20px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 15px;
   position: relative;
+  box-shadow: 0px 10px 13px 10px rgba(0, 0, 0, 0.07);
+
   p {
     font-size: 1.2rem;
     font-weight: 400;
@@ -44,5 +54,9 @@ export const ButtonSector = styled.div`
     p {
       font-weight: 600;
     }
+  }
+
+  @media (max-width: 768px) {
+    width: 90%;
   }
 `;
