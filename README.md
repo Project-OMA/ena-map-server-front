@@ -11,7 +11,7 @@ Neste projeto, utilizamos as seguintes tecnologias:
 * ContextAPI (estado global)
 * Axios (Requisições via API REST)
 
-# Como utilizar 
+## Como utilizar 
 
 Para executar a aplicação localmente, será necessário:
 * Ter o NodeJs já instalado na máquina
@@ -43,8 +43,9 @@ Para a criação de novas rotas e novas páginas, siga os passos dados abaixo:
 2. Vá no arquivo "src/routes/useRoutes.tsx" e crie um método para retornar a rota desejada e crie sua assinatura no "UseRoutesReturn"
 <img src="src/assets/images/useRoutes.png" alt="Imagem exibindo o arquivo useRoutes">
 
-2. Volte no arquivo "src/routes/RoutesConfig.tsx" e crie na lista ROUTES um objeto contendo: o path da url, um campo dizendo se a rota é publica ou não, e seus componentes que serão renderizados de acordo com o tipo de cargo do usuário logado atualmente.
+3. Volte no arquivo "src/routes/RoutesConfig.tsx" e crie na lista ROUTES um objeto contendo: o path da url, um campo dizendo se a rota é publica ou não, e seus componentes que serão renderizados de acordo com o tipo de cargo do usuário logado atualmente.
 <img src="src/assets/images/routes.png" alt="Imagem exibindo o arquivo useRoutes">
+<br>
 
 ## Débitos Técnicos
 
