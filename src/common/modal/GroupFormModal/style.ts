@@ -37,6 +37,7 @@ export const BodyModalWrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   gap: 25px;
+  position: relative;
 `;
 
 export const FooterModalWrapper = styled.div`
@@ -113,4 +114,11 @@ export const WrapperDnD = styled.div`
   h1 {
     font-size: 1.5rem;
   }
+`;
+
+export const DeleteButton = styled.button`
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 `;

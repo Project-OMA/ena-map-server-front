@@ -131,6 +131,7 @@ export default function Admin_Maps() {
               closeModal={closeModal}
               loadMaps={() => loadMaps(search, limit, page)}
               mapSelected={mapSelected}
+              setMapSelected={setMapSelected}
             />
             {renderMapCards()}
           </WrapperMaps>

@@ -12,6 +12,7 @@ import {
   MapCard,
   ImgCard,
   WrapperDnD,
+  DeleteButton,
 } from "./style";
 import Button from "../../components/Button";
 import { Close } from "@styled-icons/evil";
@@ -25,8 +26,8 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import AutoCompleteInput from "../../components/AutoCompleteInput";
 import { getBackgroundLink } from "../../../consts";
 import { useUser } from "../../../hooks/useUser";
-import ReactDOM from "react-dom/client";
-import { ImageNotSupported } from "@styled-icons/material";
+import { Delete } from "@styled-icons/fluentui-system-regular";
+import { Tooltip } from "@mui/material";
 
 type IRegisterMapModal = {
   open: boolean;
@@ -317,6 +318,17 @@ export default function RegisterMapModal({
     characters,
   ]);
 
+  const handleDeleteGroup = async () => {
+    try {
+      if (groupUpdateId) {
+        await groupService.deleteById(groupUpdateId as number);
+        handleCloseModal();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Modal
       isOpen={open}
@@ -335,7 +347,16 @@ export default function RegisterMapModal({
             <Close size={25} color="#000" />
           </button>
         </HeaderModal>
-        <BodyModalWrapper>{renderForm()}</BodyModalWrapper>
+        <BodyModalWrapper>
+          {groupUpdateId && (
+            <Tooltip title="Excluir o Grupo">
+              <DeleteButton onClick={() => handleDeleteGroup()}>
+                <Delete size={25} color="#000" />
+              </DeleteButton>
+            </Tooltip>
+          )}
+          {renderForm()}
+        </BodyModalWrapper>
         <div style={{ color: "red", padding: "0px 80px" }}>{errorMessage}</div>
 
         <FooterModalWrapper>
